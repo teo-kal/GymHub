@@ -1,0 +1,30 @@
+<div class="wrap">
+<div class="container">
+    <h2>Dobrodošli! Ovo je prvi korak ka vašem boljem izgledu i zdravijem životu</h2>
+    <h3>Molimo vas da unesete sledeće podatke kako bi napravili što bolje iskustvo za vas</h3>
+    <form #f='ngForm'>
+        <h4>Izaberite vaš cilj</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>Cilj mi je da</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let cilj of ciljevi" [value]="cilj.value">
+                {{cilj.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <h4>Izaberite trenera</h4>
+          <div *ngIf="treneri">
+          <mat-form-field appearance="fill">
+            <mat-label>Izaberite</mat-label>
+            <mat-select panelClass="panel">
+              <mat-option *ngFor="let trener of treneri | async" [value]="trener.value">
+                <img src="{{trener.slika}}" class="thumbnail"> {{trener.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    </form>
+    <button type="button" class="btn btn-primary">Potvrdi</button>
+</div>
+</div>

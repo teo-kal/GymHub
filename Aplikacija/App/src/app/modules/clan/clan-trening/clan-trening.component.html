@@ -1,0 +1,228 @@
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/clan">GymHub</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/clan">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clan/treneri">Treneri</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clan/vezbe">Vežbe</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Planovi
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item active" href="/clan/planovi/trening"
+                >Trening</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/clan/planovi/ishrana">Ishrana</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/clan/radio">GymHub Radio</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img src="assets/icons/settings_white_16.png" />
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/clan/podesavanja">Podešavanja</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/clan/prijavi-problem"
+                >Prijavi problem</a
+              >
+            </li>
+            <li><app-logout></app-logout></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<jw-modal id="modal" *ngIf="objZaPrikaz">
+  <div class="container">
+  <div class="row">
+  <h1>{{objZaPrikaz.Naziv}}</h1>
+  <h2>{{objZaPrikaz.MisicnaGrupa}}</h2>
+  <h3>{{objZaPrikaz.Opis}}</h3>
+</div>
+<div class="row klip">
+  <iframe [src]="objZaPrikaz.VideoLink | safe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+  <div class="buttonZatvori">
+  <button type="button" class="btn btn-danger" (click)="modalService.close('modal')"><i class="fas fa-long-arrow-alt-left"></i></button>
+  </div>
+</div>
+</jw-modal>
+<!--MAIN CONTENT-->
+<div class="wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col noPlan" *ngIf="!plan">
+        <h1>Trenutno nemate plan treninga, da bi ste ga dobili morate izabrati trenera. Ako imate trenera, plan treninga će Vam biti dodeljen uskoro.</h1>
+        <img src="../../../../assets/waiting.gif" class="img img-fluid">
+      </div>
+      <div class="col vezbe" *ngIf="plan">
+        <h1>{{ plan.Naziv }}</h1>
+        <h3>Težina: {{ plan.Nivo }} {{ plan.Trajanje }} dana</h3>
+        <div class="plan">
+        <div *ngIf="vezbePon" class="odd">
+          <h2>Dan: Ponedeljak</h2>
+          <table>
+            <tr>
+              <th>Vežba</th>
+              <th>Broj ponavljanja</th>
+              <th>Broj serija</th>
+            </tr>
+            <tr *ngFor="let vezba of vezbePon; let i = index">
+              <td class="naziv" (click)="prikaziDetalje(vezba)">{{naziviPon[i]}}</td>
+              <td>{{vezba.BrPonavljanja}}</td>
+              <td>{{vezba.BrSerija}}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="vezbeUto" class="even">
+          <h2>Dan: Utorak</h2>
+          <table>
+            <tr>
+              <th>Vežba</th>
+              <th>Broj ponavljanja</th>
+              <th>Broj serija</th>
+            </tr>
+            <tr *ngFor="let vezba of vezbeUto; let i = index">
+              <td class="naziv" (click)="prikaziDetalje(vezba)">{{naziviUto[i]}}</td>
+              <td>{{vezba.BrPonavljanja}}</td>
+              <td>{{vezba.BrSerija}}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="vezbeSre" class="odd">
+          <h2>Dan: Sreda</h2>
+          <table>
+            <tr>
+              <th>Vežba</th>
+              <th>Broj ponavljanja</th>
+              <th>Broj serija</th>
+            </tr>
+            <tr *ngFor="let vezba of vezbeSre; let i = index">
+              <td class="naziv" (click)="prikaziDetalje(vezba)">{{naziviSre[i]}}</td>
+              <td>{{vezba.BrPonavljanja}}</td>
+              <td>{{vezba.BrSerija}}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="vezbeCet" class="even">
+          <h2>Dan: Četvrtak</h2>
+          <table>
+            <tr>
+              <th>Vežba</th>
+              <th>Broj ponavljanja</th>
+              <th>Broj serija</th>
+            </tr>
+            <tr *ngFor="let vezba of vezbeCet; let i = index">
+              <td class="naziv" (click)="prikaziDetalje(vezba)">{{naziviCet[i]}}</td>
+              <td>{{vezba.BrPonavljanja}}</td>
+              <td>{{vezba.BrSerija}}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="vezbePet" class="odd">
+          <h2>Dan: Petak</h2>
+          <table>
+            <tr>
+              <th>Vežba</th>
+              <th>Broj ponavljanja</th>
+              <th>Broj serija</th>
+            </tr>
+            <tr *ngFor="let vezba of vezbePet; let i = index">
+              <td class="naziv" (click)="prikaziDetalje(vezba)">{{naziviPet[i]}}</td>
+              <td>{{vezba.BrPonavljanja}}</td>
+              <td>{{vezba.BrSerija}}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="vezbeSub" class="even">
+          <h2>Dan: Subota</h2>
+          <table>
+            <tr>
+              <th>Vežba</th>
+              <th>Broj ponavljanja</th>
+              <th>Broj serija</th>
+            </tr>
+            <tr *ngFor="let vezba of vezbeSub; let i = index">
+              <td class="naziv" (click)="prikaziDetalje(vezba)">{{naziviSub[i]}}</td>
+              <td>{{vezba.BrPonavljanja}}</td>
+              <td>{{vezba.BrSerija}}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="vezbeNed" class="odd">
+          <h2>Dan: Nedelja</h2>
+          <table>
+            <tr>
+              <th>Vežba</th>
+              <th>Broj ponavljanja</th>
+              <th>Broj serija</th>
+            </tr>
+            <tr *ngFor="let vezba of vezbeNed; let i = index">
+              <td class="naziv" (click)="prikaziDetalje(vezba)">{{naziviNed[i]}}</td>
+              <td>{{vezba.BrPonavljanja}}</td>
+              <td>{{vezba.BrSerija}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!--MAIN CONTENT ENDS-->
+
+  <!--FOOTER-->
+  <app-footer></app-footer>
+  <!--FOOTER ENDS-->
+

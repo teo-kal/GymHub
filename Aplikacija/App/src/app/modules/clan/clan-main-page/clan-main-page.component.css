@@ -1,0 +1,93 @@
+.wrap{
+    height: 100%;
+}
+.clanska-karta{
+    height: 50%;
+}
+.trener{
+    height: 50%;
+}
+.plan-da-danas{
+    height: 50%;
+}
+.clanarina{
+    height: 50%;
+}
+.nav-link
+{
+    font-size: 20px;
+}
+.navbar-brand
+{
+    font-size: 25px;
+}
+.logo{
+    width: 100px;
+    height: 100px;
+}
+
+.kartica{
+    color: black;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.container{
+    opacity: 1;
+    background-color: white;
+    padding-top: 30px;
+
+    border-radius: 10px;
+}
+
+.wrap{
+    background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.trenerSlika{
+    border-radius: 10px;
+}
+
+.trener{
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.plan-za-danas-trening{
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.plan-za-danas-ishrana{
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.fas{
+    font-size: 20px;
+}
+.fas:hover{
+    cursor: pointer;
+}
+.fa-arrow-up:hover{
+    color: green
+}
+.fa-arrow-down:hover{
+    color: red;
+}
+.termin{
+    font-weight: bold;
+}
+
+.card{
+    line-height: 40px;
+    font-weight: 300;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+}
+.forma{
+    text-align: center;
+}
+

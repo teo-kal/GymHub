@@ -1,0 +1,125 @@
+<!--MODAL NOVI-->
+<jw-modal id="modal-Novi">
+    <form #fDodaj='ngForm' (ngSubmit)="dodaj()">
+        <h1>Osnovni podaci</h1>
+        <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Ime</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.Ime" name="ime">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Prezime</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.Prezime" name="prezime">
+        </mat-form-field>     
+
+        <mat-form-field appearance="fill">
+            <mat-label>JMBG</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.JMBG" name="jmbg" minlength="13" maxlength="13">
+        </mat-form-field>   
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Korisničko ime</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.KorisnickoIme" name="username">
+        </mat-form-field>   
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Lozinka</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.Lozinka" name="lozinka">
+        </mat-form-field>   
+
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.Email" name="email" type="email">
+        </mat-form-field> 
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Datum rodjenja</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="trenerZaDodavanje.DatRodjenja" name="datum">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>    
+
+        <mat-form-field appearance="fill">
+            <mat-label>Pol</mat-label>
+            <select matNativeControl required [(ngModel)]="trenerZaDodavanje.Pol" name="pol">
+              <option value="M">Muški</option>
+              <option value="Z">Ženski</option>
+            </select>
+          </mat-form-field>
+        </div>
+          <h1>Podaci o radnom iskustvu i obrazovanju</h1>
+          <mat-form-field appearance="fill">
+            <mat-label>Zvanje</mat-label>
+            <textarea matInput [(ngModel)]="trenerZaDodavanje.Zvanje" name="zvanje"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Specijalizacija</mat-label>
+            <textarea matInput required [(ngModel)]="trenerZaDodavanje.Specijalizacija" name="specijalizacija"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Godine iskustva</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.GodIskustva" name="godIskustva">
+        </mat-form-field> 
+        <mat-form-field appearance="fill">
+            <mat-label>Broj personalnih treninga</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.BrPersTreninga" name="godIskustva">
+        </mat-form-field> 
+
+        <mat-form-field appearance="fill">
+            <mat-label>Radno vreme</mat-label>
+            <input matInput required [(ngModel)]="trenerZaDodavanje.RadnoVreme" name="godIskustva" placeholder="DAN(XX:XX-XX:XX);DAN(XX:XX-XX:XX)">
+        </mat-form-field> 
+        <br>
+        <button type="submit" class="btn btn-success mb-3" [disabled]="!fDodaj.valid"><i class="fas fa-check-circle"></i></button>
+    </form>
+    <button type="button" class="btn btn-danger" (click)="modalService.close('modal-Novi')"><i class="fas fa-long-arrow-alt-left"></i></button>
+</jw-modal>
+<!--MODAL IZMENI-->
+<jw-modal id="modal-Izmeni" *ngIf="podaciZaSlanje">
+    <form #fIzmeni='ngForm' (ngSubmit)="izmeniTrenera()">
+          <h1>Podaci o obrazovanju</h1>
+          <mat-form-field appearance="fill">
+            <mat-label>Zvanje</mat-label>
+            <textarea matInput required [(ngModel)]="podaciZaSlanje.Zvanje" name="zvanje"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Specijalizacija</mat-label>
+            <textarea matInput required [(ngModel)]="podaciZaSlanje.Specijalizacija" name="specijalizacija"></textarea>
+          </mat-form-field>
+          <br>
+          <button type="submit" class="btn btn-success mb-3" [disabled]="!fIzmeni.touched"><i class="fas fa-check-circle"></i></button>
+    </form>
+    <button type="button" class="btn btn-danger" (click)="modalService.close('modal-Izmeni')"><i class="fas fa-window-close"></i></button>
+</jw-modal>
+<div class="wrap">
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <nav class="nav flex-column">
+                <h2>Dashboard</h2>
+                <hr>
+                <a class="nav-link" href="admin/clanovi">Članovi</a>
+                <a class="nav-link" href="admin/grupe">Grupe</a>
+                <a class="nav-link active" href="admin/treneri">Treneri</a>
+                <a class="nav-link" href="admin/vezbe">Vežbe</a>
+                <a class="nav-link" href="admin/ishrana">Planovi ishrane</a>
+                <a class="nav-link" href="admin/trening">Planovi treninga</a>
+                <app-logout></app-logout>
+            </nav>
+        </div>
+        <div class="col-7">
+            <div *ngFor="let trener of treneri | async" class="trener">
+                <p>Ime i prezime: {{trener.Ime}} {{trener.Prezime}}</p>
+                <p>Korisnicko ime: {{trener.KorisnickoIme}}</p>
+                <p>Email: {{trener.Email}}</p>
+                <button type="button" class="btn btn-warning m-1" (click)="izmeniKlik(trener)"><i class="fas fa-pen"></i></button>
+                <button type="button" class="btn btn-danger m-1" (click)="obrisi(trener)"><i class="fas fa-trash-alt"></i></button>
+            </div>
+            <button type="button" class="btn btn-primary m-1 btnDodaj" (click)="modalService.open('modal-Novi')"><i class="fas fa-plus-square"></i></button>
+        </div>
+    </div>
+</div>
+</div>

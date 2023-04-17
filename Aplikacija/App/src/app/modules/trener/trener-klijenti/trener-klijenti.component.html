@@ -1,0 +1,360 @@
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/trener">GymHub</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/trener">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/trener/klijenti">Moji klijenti</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/trener/vezbe">Vežbe</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Planovi
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/trener/planovi/trening"
+                >Trening</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/trener/planovi/ishrana"
+                >Ishrana</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/trener/radio" target="_blank"
+            >GymHub Radio</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img src="assets/icons/settings_white_16.png" />
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/trener/podesavanja"
+                >Podešavanja</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/trener/prijavi-problem"
+                >Prijavi problem</a
+              >
+            </li>
+            <li><app-logout></app-logout></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--NAVBAR ENDS-->
+<jw-modal id="modal-Grupa">
+  <h1 *ngIf="osobeGrupe.grupa">
+    Klijenti koji su u {{ osobeGrupe.grupa.Naziv }} grupi
+  </h1>
+  <div *ngIf="osobeGrupe.osobe">
+    <div
+      *ngFor="let osoba of osobeGrupe.osobe; let i = index"
+      class="osoba_grupa"
+    >
+      <h3>{{ osoba.Ime }} {{ osoba.Prezime }} <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzGrupe(osoba.ID)"><i class="fas fa-share"></i></button></h3>
+      <h4 *ngIf="osoba.Telefon">Telefon: {{osoba.Telefon}}</h4>
+      <h4 *ngIf="!osoba.Telefon">Osoba trenutno nema upisan broj telefona</h4>
+      <hr />
+    </div>
+  </div>
+  <div *ngIf="!osobeGrupe.osobe">
+    <p>Grupa trenutno nema članove, dodajte ih...</p>
+  </div>
+
+  <button
+    type="button"
+    class="btn btn-danger"
+    (click)="modalService.close('modal-Grupa')"
+  >
+  <i class="fas fa-long-arrow-alt-left"></i>
+  </button>
+</jw-modal>
+
+<jw-modal id="modal-Trening">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="example-container col-4">
+        <h2>Svi moji planovi treninga</h2>
+        <div
+          cdkDropList
+          #todoList="cdkDropList"
+          [cdkDropListData]="planoviTreninga"
+          [cdkDropListConnectedTo]="placeholderList"
+          class="example-list"
+          id="planoviTreningaList"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div class="example-box" *ngFor="let plan of planoviTreninga" cdkDrag>
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            {{ plan.Naziv }}
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <h1>Prevucite željeni plan ispod</h1>
+        <form #f="ngForm">
+          <div
+            cdkDropList
+            #placeholderList="cdkDropList"
+            [cdkDropListData]="izabranPlanTreninga"
+            [cdkDropListConnectedTo]="[todoList]"
+            class="example-list"
+            id="placeholderList"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <div
+              class="example-box"
+              *ngFor="let item of izabranPlanTreninga"
+              cdkDrag
+              [cdkDragDisabled]="true"
+            >
+              {{ item.Naziv }}
+
+              <button *ngIf="grupaZaDodeljivanje" type="submit" class="btn btn-success" (click)="dodeliPlanTreninga(item.ID, -1 ,grupaZaDodeljivanje.ID)"><i class="fas fa-check-circle"></i></button>
+              <button *ngIf="osobaZaDodeljivanje" type="submit" class="btn btn-success" (click)="dodeliPlanTreninga(item.ID, osobaZaDodeljivanje.ID, -1)"><i class="fas fa-check-circle"></i></button>
+            </div>
+ 
+          </div>
+        </form>
+        <button
+          type="button"
+          class="btn btn-danger mt-3"
+          (click)="modalService.close('modal-Trening')"
+        >
+        <i class="fas fa-long-arrow-alt-left"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</jw-modal>
+
+<jw-modal id="modal-Ishrana">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="example-container col-4">
+        <h2>Svi moji planovi ishrane</h2>
+        <div
+          cdkDropList
+          #todoList="cdkDropList"
+          [cdkDropListData]="planoviIshrane"
+          [cdkDropListConnectedTo]="placeholderListI"
+          class="example-list"
+          id="planoviIshraneList"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div class="example-box" *ngFor="let plan of planoviIshrane" cdkDrag>
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            {{ plan.Naziv }}
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <h1>Prevucite željeni plan ispod</h1>
+        <form #f="ngForm">
+          <div
+            cdkDropList
+            #placeholderListI="cdkDropList"
+            [cdkDropListData]="izabranPlanIshrane"
+            [cdkDropListConnectedTo]="[todoList]"
+            class="example-list"
+            id="placeholderListI"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <div
+              class="example-box"
+              *ngFor="let item of izabranPlanIshrane"
+              cdkDrag
+              [cdkDragDisabled]="true"
+            >
+              {{ item.Naziv }}
+
+              <button *ngIf="grupaZaDodeljivanje" type="submit" class="btn btn-success" (click)="dodeliPlanIshrane(item.ID, -1 ,grupaZaDodeljivanje.ID)"><i class="fas fa-check-circle"></i></button>
+              <button *ngIf="osobaZaDodeljivanje" type="submit" class="btn btn-success" (click)="dodeliPlanIshrane(item.ID, osobaZaDodeljivanje.ID, -1)"><i class="fas fa-check-circle"></i></button>
+            </div>
+ 
+          </div>
+        </form>
+        <button
+          type="button"
+          class="btn btn-danger mt-3"
+          (click)="modalService.close('modal-Ishrana')"
+        >
+        <i class="fas fa-long-arrow-alt-left"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</jw-modal>
+<!--MAIN CONTENT-->
+<div class="wrap">
+  <div class="container">
+    <div class="row mb-3 mt-3" *ngIf="objekat">
+      <div class="col">
+        <h1>Grupe</h1>
+        <div *ngFor="let grupa of objekat.Grupe" class="grupa">
+          <i class="fas fa-info-circle" (click)="showGrupaDetalji(grupa)"></i>
+          <h3>{{ grupa.Naziv }} {{grupa.TrenutniKap}}/{{grupa.Kapacitet}}</h3>
+          <h4>{{ grupa.Termini }}</h4>
+          <div *ngIf="grupa.PlanTreninga">
+            <h4>Plan treninga: {{ grupa.PlanTreninga.Naziv }} <button type="button" class="btn btn-warning btn-change" (click)="dodeliPlanTreningaGrupiClick(grupa)"><i class="fas fa-exchange-alt"></i></button></h4>
+            
+          </div>
+          <h4 *ngIf="!grupa.PlanTreninga">
+            Grupa trenutno nema plan treninga. Dodelite joj plan
+            <span (click)="dodeliPlanTreningaGrupiClick(grupa)">ovde</span>
+          </h4>
+          <div *ngIf="grupa.PlanIshrane">
+            <h4>Plan ishrane: {{ grupa.PlanIshrane.Naziv }} <button type="button" class="btn btn-warning btn-change" (click)="dodeliPlanIshraneGrupiClick(grupa)"><i class="fas fa-exchange-alt"></i></button></h4>
+          </div>
+          <h4 *ngIf="!grupa.PlanIshrane">
+            Grupa trenutno nema plan ishrane. Dodelite joj plan
+            <span (click)="dodeliPlanIshraneGrupiClick(grupa)">ovde</span>
+          </h4>
+          <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="!selectedKlijent || grupa.Kapacitet==grupa.TrenutniKap"
+            (click)="dodajUGrupu(grupa.ID)"
+          >
+            Dodaj u grupu
+          </button>
+          <hr />
+        </div>
+      </div>
+      <div class="col">
+        <h1>Klijenti kojima treba dodeliti grupu</h1>
+        <div
+          *ngFor="let osoba of objekat.Osobe; let i = index"
+          [id]="osoba.ID"
+          class="osoba"
+        >
+        <div *ngIf="osoba.TipClanarine === 'Grupni'">
+          <h3 (click)="selectKlijent(osoba)" class="clickable">
+            {{ osoba.Ime }} {{ osoba.Prezime }}
+            <i class="fas fa-check-square"></i>
+          </h3>
+          <h4>Cilj: {{osoba.Cilj}}</h4>
+          <h4 *ngIf="osoba.Telefon">Telefon: {{ osoba.Telefon }}</h4>
+          <h4 *ngIf="!osoba.Telefon">
+            Osoba trenutno nema upisan broj telefona
+          </h4>
+          <div>
+          <h4 *ngIf="osoba.PlanTreninga">
+            Plan treninga: {{ osoba.PlanTreninga.Naziv }}
+            <button type="button" class="btn btn-warning btn-change" (click)="dodeliPlanTreningaClanuClick(osoba)"><i class="fas fa-exchange-alt"></i></button>
+          </h4>
+        </div>
+          <h4 *ngIf="!osoba.PlanTreninga">
+            Osoba trenutno nema plan treninga. Dodelite joj plan
+            <span (click)="dodeliPlanTreningaClanuClick(osoba)">ovde</span>
+          </h4>
+          <div>
+          <h4 *ngIf="osoba.PlanIshrane">
+            Plan ishrane: {{ osoba.PlanIshrane.Naziv }}
+            <button type="button" class="btn btn-warning btn-change" (click)="dodeliPlanIshraneClanuClick(osoba)"><i class="fas fa-exchange-alt"></i></button>
+          </h4>
+        </div>
+          <h4 *ngIf="!osoba.PlanIshrane">
+            Osoba trenutno nema plan ishrane. Dodelite joj plan
+            <span (click)="dodeliPlanIshraneClanuClick(osoba)">ovde</span>
+          </h4>
+          <hr />
+        </div>
+      </div>
+      </div>
+      <div class="col">
+        <h1>Samostalni klijenti</h1>
+        <div
+          *ngFor="let osoba of objekat.Osobe; let i = index"
+          [id]="osoba.ID"
+          class="osoba"
+        >
+        <div *ngIf="osoba.TipClanarine !== 'Grupni'">
+          <h3>
+            {{ osoba.Ime }} {{ osoba.Prezime }}
+          </h3>
+          <h4>Cilj: {{osoba.Cilj}}</h4>
+          <h4 *ngIf="osoba.Telefon">Telefon: {{ osoba.Telefon }}</h4>
+          <h4 *ngIf="!osoba.Telefon">
+            Osoba trenutno nema upisan broj telefona
+          </h4>
+          <div>
+          <h4 *ngIf="osoba.PlanTreninga">
+            Plan treninga: {{ osoba.PlanTreninga.Naziv }}
+            <button type="button" class="btn btn-warning btn-change" (click)="dodeliPlanTreningaClanuClick(osoba)"><i class="fas fa-exchange-alt"></i></button>
+          </h4>
+        </div>
+          <h4 *ngIf="!osoba.PlanTreninga">
+            Osoba trenutno nema plan treninga. Dodelite joj plan
+            <span (click)="dodeliPlanTreningaClanuClick(osoba)">ovde</span>
+          </h4>
+          <div>
+          <h4 *ngIf="osoba.PlanIshrane">
+            Plan ishrane: {{ osoba.PlanIshrane.Naziv }}
+            <button type="button" class="btn btn-warning btn-change" (click)="dodeliPlanIshraneClanuClick(osoba)"><i class="fas fa-exchange-alt"></i></button>
+          </h4>
+        </div>
+          <h4 *ngIf="!osoba.PlanIshrane">
+            Osoba trenutno nema plan ishrane. Dodelite joj plan
+            <span (click)="dodeliPlanIshraneClanuClick(osoba)">ovde</span>
+          </h4>
+          <hr />
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--MAIN CONTENT ENDS-->
+
+<!--FOOTER-->
+<app-footer></app-footer>
+<!--FOOTER ENDS-->

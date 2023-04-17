@@ -1,0 +1,54 @@
+h4 {
+  text-align: center;
+}
+nav {
+  text-align: center;
+}
+a {
+  font-size: 20px;
+}
+.active {
+  color: blue;
+}
+p {
+  font-size: 20px;
+}
+.container{
+  background-color: white;
+  padding-top: 30px;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.wrap{
+  background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+  height: 100%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.trener {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid gray;
+  background-color: white;
+}
+
+.mat-form-field {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.fa-pen{
+  color: white;
+}
+.btnDodaj{
+  position: fixed;
+  bottom: 20px;
+  right: 22%;
+  z-index: 99;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+}

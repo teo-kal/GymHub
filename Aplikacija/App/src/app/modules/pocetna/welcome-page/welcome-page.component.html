@@ -1,0 +1,345 @@
+<!--BACK TO TOP-->
+<app-back-to-top></app-back-to-top>
+<!--BACK TO TOP END-->
+
+<!--NAVBAR-->
+<div class="container-fluid wrap">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" id="navbarID">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="">GymHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2 nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link" href="#pocetna">Početna</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#o-nama">O nama</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#treneri">Treneri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#kontakt">Kontakt</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<!--NAVBAR ENDS-->
+<!--WELCOME-->
+<div data-bs-spy="scroll" data-bs-target="#navbarID" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+<div class="bg-image img-fluid" id="pocetna">
+    <div class="container d-flex align-items-center justify-content-center text-center h-100">
+        <div class="row">
+            <h1 class="col-md-12 display-2">
+                Dobrodosli na GymHub platformu
+            </h1>
+            <br>
+            <div class="div-btn">
+                <a type="button" class="btn btn-warning btn-login col-md-12" (click)="modalService.open('modal-Login')">Prijavi se</a>
+            </div>
+            <p class="pocetniP">Nemate nalog? Registrujte se <a class="btn-register" (click)="modalService.open('modal-Register')">ovde</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<!--Login form-->
+<jw-modal id="modal-Login" class="jw-modal-open jw-modal">
+    <div class="modal-body">
+      <h1>Login</h1>
+        <form #f='ngForm' (ngSubmit)="login(f)">
+              <mat-form-field class="username">
+                <mat-label>Korisničko ime</mat-label>
+                <input matInput required name="KorisnickoIme" [(ngModel)]="KorisnickoIme">
+              </mat-form-field>
+              <br/>
+                <mat-form-field class="password">
+                  <mat-label>Lozinka</mat-label>
+                  <input matInput required name="Lozinka" [(ngModel)]="Lozinka" type="password">
+                </mat-form-field>
+              <br/>
+              <button type="submit" class="btn btn-warning" [disabled]="!f.valid">Log in</button>
+              <br>
+              <br>
+              <a href="/resetpass">Zaboravili ste lozinku?</a>
+        </form>
+        <br/>
+    </div>
+</jw-modal>
+<!--Register form-->
+
+<jw-modal id="modal-Register">
+  <h1>Registracija novog člana</h1>
+        <form #forma='ngForm' (ngSubmit)="register(forma)">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Ime</mat-label>
+                  <input matInput required name="Ime" [(ngModel)]="osobaRegister.Ime">
+                </mat-form-field>
+                <br/>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Prezime</mat-label>
+                  <input matInput required name="Prezime" [(ngModel)]="osobaRegister.Prezime">
+                </mat-form-field>
+                <br/>
+              <mat-form-field appearance="fill">
+                <mat-label>Datum rodjenja</mat-label>
+                <input matInput [matDatepicker]="picker" name="DatRodjenja" [(ngModel)]="osobaRegister.DatRodjenja" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>  
+              <br/>
+              <mat-form-field class="example-full-width">
+                <mat-label>JMBG</mat-label>
+                <input matInput required name="JMBG" [(ngModel)]="osobaRegister.JMBG" minlength="13" maxlength="13">
+              </mat-form-field>
+              <br/>
+              <mat-form-field appearance="fill">
+                <mat-label>Pol</mat-label>
+                <mat-select name="Pol" [(ngModel)]="osobaRegister.Pol" required>
+                  <mat-option *ngFor="let pol of pols" [value]="pol.value">
+                    {{pol.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <br>
+              <mat-form-field class="example-full-width">
+                <mat-label>Email adresa</mat-label>
+                <input matInput required name="Email" [(ngModel)]="osobaRegister.Email" type="email">
+              </mat-form-field>
+              <br/>
+              <mat-form-field class="example-full-width">
+                <mat-label>Korisničko ime</mat-label>
+                <input matInput required name="KorisnickoIme" [(ngModel)]="osobaRegister.KorisnickoIme">
+              </mat-form-field>
+              <br/>
+              <mat-form-field class="password">
+                <mat-label>Lozinka</mat-label>
+                <input matInput required type="password" name="osobaLozinka" [(ngModel)]="osobaRegister.Lozinka">
+              </mat-form-field>
+              <br/>
+              <mat-form-field class="password">
+                <mat-label>Potvrdite lozinku</mat-label>
+                <input matInput required type="password" name="confirmLozinka" [(ngModel)]="confirmLozinka">
+              </mat-form-field>        
+              <br/>
+              <mat-form-field appearance="fill">
+                <mat-label>Cilj mi je da</mat-label>
+                <mat-select  [(ngModel)]="osobaRegister.Cilj" name="Cilj">
+                  <mat-option *ngFor="let cilj of ciljevi" value="{{cilj.value}}">
+                    {{cilj.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <br/>
+              <button type="submit" class="btn btn-warning" [disabled]="!forma.valid">Registruj se</button>
+        </form>
+        <p>*Prvi mesec treniranja u našoj teretani je besplatan radi upoznavanja sa aplikacijom, nakog toga cena članarine je određena režimom i trajanjem treninga</p>
+      </jw-modal>
+
+<!--WELCOME ENDS-->
+<!--O NAMA-->
+<div class="wrapAction">
+    <div class="container" id="o-nama">
+        <div class="card-group col-m gap-3">
+            <div class="card">
+              <img src="assets/icons/i1_b_PNG.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h2 class="card-title">Teretana</h2>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              </div>
+            </div>
+            <div class="card">
+              <img src="assets/icons/i2_b_PNG.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h2 class="card-title">Trening</h2>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+              </div>
+            </div>
+            <div class="card">
+              <img src="assets/icons/i4_b_PNG.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h2 class="card-title">Ishrana</h2>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+              </div>
+            </div>
+          </div>
+    </div>
+    </div>
+    
+<!--O NAMA ENDS-->
+<!--SKRACEN PROGRAM-->
+<div class="wrapProgram">
+    <h1>Koje programe nudimo:</h1>
+  <div id="carouselProgram" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselProgram" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselProgram" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselProgram" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselProgram" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      <button type="button" data-bs-target="#carouselProgram" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="assets/Workout/w21.jpg" class="d-block w-100 img-fluid carouselImg" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 class="display-3">Crossfit</h1>
+          <h4>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi veritatis repellendus ipsam, dolorem veniam unde impedit quasi adipisci ullam facere delectus itaque.</h4>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="assets/Workout/w12.jpg" class="d-block w-100 img-fluid carouselImg" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 class="display-3">Yoga</h1>
+          <h4>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi veritatis repellendus ipsam, dolorem veniam unde impedit quasi adipisci ullam facere delectus itaque.</h4>
+        </div>
+    </div>
+      <div class="carousel-item">
+        <img src="assets/Workout/w6.jpg" class="d-block w-100 img-fluid carouselImg" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 class="display-3 naslovCarousel">Powerlifting</h1>
+          <h4 class="opisCarousel">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi veritatis repellendus ipsam, dolorem veniam unde impedit quasi adipisci ullam facere delectus itaque.</h4>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="assets/Workout/w27.jpg" class="d-block w-100 img-fluid carouselImg" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 class="display-3 naslovCarousel">Bootcamp</h1>
+          <h4 class="opisCarousel">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi veritatis repellendus ipsam, dolorem veniam unde impedit quasi adipisci ullam facere delectus itaque.</h4>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="assets/Workout/w24.jpg" class="d-block w-100 img-fluid carouselImg" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 class="display-3 naslovCarousel">Endurance</h1>
+          <h4 class="opisCarousel">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi veritatis repellendus ipsam, dolorem veniam unde impedit quasi adipisci ullam facere delectus itaque.</h4>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselProgram"  data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselProgram"  data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  </div>
+<!--SKRACEN PROGRAM ENDS-->
+<!--SKRACENO TRENERI-->
+<div class="wrapTreneri" id="treneri">
+    <div class="container">
+        <h1 class="display-3 nasovTreneri">Upoznajte nase trenere!</h1>
+        <div class="treneri row">
+            <div class="flip-card col">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img src="assets/Workout/w9.jpg" alt="Avatar" class="treneri-img img-fluid">
+                  </div>
+                  <div class="flip-card-back">
+                    <h1>Petrija Milisavljević</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <p>placeat, officia laboriosam inventore a vero ratione nam amet saepe sit omnis.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flip-card col">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img src="assets/Workout/w18.jpg" alt="Avatar" class="treneri-img img-fluid">
+                  </div>
+                  <div class="flip-card-back">
+                    <h1>Todor Kalezić</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <p>placeat, officia laboriosam inventore a vero ratione nam amet saepe sit omnis.</p>
+                  </div>
+                </div>
+              </div> 
+              <div class="flip-card col">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img src="assets/Workout/w10.jpg" alt="Avatar" class="treneri-img img-fluid">
+                  </div>
+                  <div class="flip-card-back">
+                    <h1>Luna Mladenović</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <p>placeat, officia laboriosam inventore a vero ratione nam amet saepe sit omnis.</p>
+                  </div>
+                </div>
+              </div> 
+        </div>
+    </div>
+    </div>
+<!--SKRACENO TRENERI ENDS-->
+<!--HERO IMAGE-->
+<section class="bgimage">
+  </section>
+<!--HERO IMAGE ENDS-->
+<!--CONTACT-->
+  <div class="wrapContact mt-5"  id="kontakt">
+      <div class="containter-fluid">
+          <div class="row">
+                  <div class="col">
+                  <h1 class="display1">Imate pitanja? Pišite nam!</h1>
+                  <form class="m-3">
+                      <div class="row">
+                          <div class="col">
+                          <input type="text" class="form-control" placeholder="Ime" aria-label="ime" id="frmIme" [(ngModel)]="Ime" name="ime">
+                          </div>
+                          <div class="col">
+                          <input type="text" class="form-control" placeholder="Prezime" aria-label="prezime" id="frmPrezime" [(ngModel)]="Prezime" name="prezime">
+                          </div>
+                      </div>
+                      <div class="row">
+                      <div class="col mt-3 mb-3">
+                          <input type="email" class="form-control" id="frmEmail" placeholder="Email"  [(ngModel)]="Email" name="email">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Izaberite razlog za kontakt</mat-label>
+                          <mat-select   [(ngModel)]="Naslov" name="naslov">
+                            <mat-option [value]="'TRENERSKA POZICIJA'">
+                              Želim da postanem trener
+                            </mat-option>
+                            <mat-option [value]="'INFORMACIJA'">
+                              Želim da dobijem više informacija o teretani
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-group col mt-3">
+                          <textarea class="form-control" aria-label="With textarea" placeholder="Poruka" id="frmPoruka"   [(ngModel)]="Tekst" name="tekst"></textarea>
+                      </div>
+                    </div>
+                      <div class="button mt-3">
+                          <button type="button" class="btn btn-warning" (click)="posaljiMejl()">Prosledi</button>
+                      </div>
+                  </form>
+              </div>
+              <div class="col o-nama mr-3">
+                  <div class="radno-vreme">
+                      <h1>Radno vreme</h1>
+                      <ul>
+                          <li><b>Ponedeljak - Nedelja : 9h - 22h</b></li>
+                      </ul>
+                  </div>
+                  <h1>Gde se nalazimo</h1>
+                  <div class="map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1451.4618078222986!2d21.89616351093173!3d43.315858413161195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4755b0b1d2292811%3A0xf7752bffcd3a1b83!2sPrijezdina%2010%2C%20Ni%C5%A1!5e0!3m2!1sen!2srs!4v1622032599701!5m2!1sen!2srs" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--CONTACT ENDS-->
+<app-footer></app-footer>
+</div>

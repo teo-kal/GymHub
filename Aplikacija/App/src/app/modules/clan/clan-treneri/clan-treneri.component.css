@@ -1,0 +1,38 @@
+.nav-link
+{
+    font-size: 20px;
+}
+.navbar-brand
+{
+    font-size: 25px;
+}
+
+.treneri-img{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
+
+.row{
+    opacity: 1;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 10px;
+}
+.btn{
+    margin: 3px;
+}
+.wrap {
+    background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .container {
+    padding-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+  }

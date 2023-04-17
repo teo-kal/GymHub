@@ -1,0 +1,8 @@
+Tabela: OBROK
+1) Kolona Dan pretvorena u varchar(30), umesto char(3)
+Navedeni dani ce u DML naredbama biti odvojeni ;
+2) Maknut constraint
+
+ALTER TABLE OBROK
+ADD CONSTRAINT CHK_OBROK_DAN
+CHECK (Dan IN('PON', 'UTO', 'SRE', 'ČET', 'PET', 'SUB', 'NED'));

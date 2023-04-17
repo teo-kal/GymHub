@@ -1,0 +1,28 @@
+<!--STRANICA-->
+<div class="wrap">
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <nav class="nav flex-column">
+        <h2>Dashboard</h2>
+        <hr />
+        <a class="nav-link" href="admin/clanovi">Članovi</a>
+        <a class="nav-link active" href="admin/grupe">Grupe</a>
+        <a class="nav-link" href="admin/treneri">Treneri</a>
+        <a class="nav-link" href="admin/vezbe">Vežbe</a>
+        <a class="nav-link" href="admin/ishrana">Planovi ishrane</a>
+        <a class="nav-link" href="admin/trening">Planovi treninga</a>
+        <app-logout></app-logout>
+      </nav>
+    </div>
+    <div class="col-7 content">
+      <div class="grupa" *ngFor="let grupa of grupe | async">
+        <p>Naziv plana:{{grupa.Naziv}}</p>
+        <p>Max kapacitet: {{grupa.Kapacitet}}</p>
+        <p>Termini: {{grupa.Termini}}</p>
+        <button type="button" class="btn btn-danger m-1" (click)="obrisi(grupa)"><i class="fas fa-trash-alt"></i></button>
+    </div>
+    </div>
+  </div>
+</div>
+</div>

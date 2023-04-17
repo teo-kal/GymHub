@@ -1,0 +1,18 @@
+FEMALE:
+w1 - https://unsplash.com/photos/sPiMBrdGG9c
+w8 - https://unsplash.com/photos/eot-ka5dM7Q
+w10 - https://unsplash.com/photos/0ShTs8iPY28
+w19 - https://unsplash.com/photos/8VI6WwEEEHw
+w20 - https://unsplash.com/photos/kY7vJYbnYGs
+MALE:
+w11 - https://unsplash.com/photos/7kEpUPB8vNk
+w18 - https://unsplash.com/photos/9y4MaTz2Js0
+w34 - https://unsplash.com/photos/8Yx3FaqlBPY
+
+Mozda i:
+
+w30 - https://unsplash.com/photos/R0y_bEUjiOM
+w31 - https://unsplash.com/photos/HHXdPG_eTIQ
+w32 - https://unsplash.com/photos/PnUYkTFkOD0
+
+ali bi one bile bolje za deo stranice za personalne treninge, a ne da bas predstavljaju trenere (najveci je problem to sto osobe nisu same na slikama)

@@ -1,0 +1,98 @@
+<jw-modal id="modal">
+  <p>Prilikom dodavanja video linka za vežbu, potrebno je otići na željeni youtube video, desni klik na video i klik na "copy embedded link"</p>
+  <form #f='ngForm' (ngSubmit)="dodajVezbu()">
+  <mat-form-field appearance="fill">
+    <mat-label>Naziv vežbe
+    </mat-label>
+    <input matInput [(ngModel)]="vezba.Naziv" name="naziv" required>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Mišićna grupa</mat-label>
+    <mat-select required name="grupa" [(ngModel)]="vezba.MisicnaGrupa">
+      <mat-option *ngFor="let misic of misicneGrupe" value="{{misic}}">{{misic}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Video link 
+    </mat-label>
+    <input matInput [(ngModel)]="vezba.VideoLink" name="videoLink" required>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Opis</mat-label>
+    <textarea matInput required [(ngModel)]="vezba.Opis" name="zvanje"></textarea>
+  </mat-form-field>
+  <br/>
+  <button type="submit" class="btn btn-success mb-3" [disabled]="!f.valid"><i class="fas fa-check-circle"></i></button>
+  </form>
+  <button type="button" class="btn btn-danger" (click)="modalService.close('modal')"><i class="fas fa-long-arrow-alt-left"></i></button>
+</jw-modal>
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/trener">GymHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/trener">Početna</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/trener/klijenti">Moji klijenti</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/trener/vezbe">Vežbe</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Planovi
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/trener/planovi/trening">Trening</a></li>
+              <li><a class="dropdown-item" href="/trener/planovi/ishrana">Ishrana</a></li>
+            </ul>
+          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/trener/radio" target="_blank">GymHub Radio</a>
+            </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="assets/icons/settings_white_16.png">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/trener/podesavanja">Podešavanja</a></li>
+              <li><a class="dropdown-item" href="/trener/prijavi-problem">Prijavi problem</a></li>
+              <li><app-logout></app-logout></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<!--NAVBAR ENDS-->
+
+<!--MAIN CONTENT-->
+<div class="wrap">
+  <div class="container">
+    <div class="row">
+      <div class="dodajDiv">
+        <h2>Dodajte novu vežbu ovde: <button type="button" class="btn btn-primary btnDodaj" (click)="modalService.open('modal')"><i class="fas fa-plus-square"></i></button></h2>
+      </div>
+    </div>
+    <div class="row">
+      <h2>Izaberite deo tela kako biste počеli sa pretragom</h2>
+      <app-vezbe-main-trener></app-vezbe-main-trener>
+    </div>
+
+
+  </div>
+</div>
+<!--MAIN CONTENT ENDS-->
+
+<!--FOOTER-->
+<app-footer></app-footer>
+<!--FOOTER ENDS-->

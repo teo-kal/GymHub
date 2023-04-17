@@ -1,0 +1,75 @@
+<div class="container">
+  <h1>Istekla Vam je članarina, molimo vas da je uplatite kako bi pristupili svom profilu</h1>
+  <div class="row">
+    <ngx-payment-card #ngxPaymentCard
+                [IBAN]="iban"
+                [cardNumber]="cNumber"
+                [securityCode]="sc"
+                [name]="name">
+    </ngx-payment-card>
+  </div>
+  <div class="row mt-3">
+    <form #f='ngForm' class="forma">
+    <div class="col">  
+      <mat-form-field class="example-full-width">
+      <mat-label>IBAN</mat-label>
+      <input matInput [(ngModel)]="iban" name="iban" required maxlength="14">
+    </mat-form-field>
+  </div>
+    <div class="col">
+      <mat-form-field class="example-full-width">
+        <mat-label>Ime i prezime</mat-label>
+        <input matInput [(ngModel)]="name" name="name" maxlength="40" required>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field class="example-full-width">
+        <mat-label>Broj kartice</mat-label>
+        <input matInput [(ngModel)]="cNumber" name="cNumber" maxlength="14" required>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field class="example-full-width">
+        <mat-label>Sigurnosni kod</mat-label>
+        <input matInput [(ngModel)]="sc" name="sc" maxlength="3" required>
+      </mat-form-field>
+    </div>
+    <div class="col">
+    <mat-form-field appearance="fill">
+      <mat-label>Period uplate</mat-label>
+      <mat-select [(ngModel)]="selektovaniPeriod" name="period" required>
+        <mat-option *ngFor="let uplata of uplate" (click)="popust()" [value]="uplata.value">
+          {{uplata.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col">
+    <p>Vaš trenutni tip članarine je {{tipClanarine}}</p>
+    <button class="btn btn-warning mb-2" type="button" (click)="prikaziMenjanjeClanarine()" [hidden]="zeliPromenu">Želim da promenim tip članarine</button>
+    <div>
+      <mat-form-field appearance="fill" *ngIf="zeliPromenu">
+        <mat-label>Tip članarine</mat-label>
+        <mat-select [(ngModel)]="tipClanarine" name="clanarina" required>
+          <mat-option *ngFor="let tip of tipClanarina" [value]="tip">
+            {{tip}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col" *ngIf="f.valid">
+    <div [ngSwitch]="tipClanarine">
+      <h1>Cena vaše članarine je:
+      <span *ngSwitchCase="'Grupni'">{{periodpopust*2000}} rsd</span>
+      <span *ngSwitchCase="'Personalni'">{{periodpopust*3000}} rsd</span>
+      <span *ngSwitchCase="'Samostalni'">{{periodpopust*1500}} rsd</span>
+      </h1>
+    </div>
+  </div>
+    <div class="col">
+      <button class="btn btn-success" type="submit" (click)="platiClanarinu()" [disabled]="!f.valid">Plati</button>
+    </div>
+  </form>
+  </div>
+</div>

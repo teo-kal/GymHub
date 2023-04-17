@@ -1,0 +1,215 @@
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/trener">GymHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/trener">Početna</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/trener/klijenti">Moji klijenti</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/trener/vezbe">Vežbe</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Planovi
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/trener/planovi/trening">Trening</a></li>
+              <li><a class="dropdown-item active" href="/trener/planovi/ishrana">Ishrana</a></li>
+            </ul>
+          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/trener/radio" target="_blank">GymHub Radio</a>
+            </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="assets/icons/settings_white_16.png">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/trener/podesavanja">Podešavanja</a></li>
+              <li><a class="dropdown-item" href="/trener/prijavi-problem">Prijavi problem</a></li>
+              <li><app-logout></app-logout></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<!--NAVBAR ENDS-->
+<jw-modal id="modal-Detalji">
+  <div><h1>{{nazivPlana}}</h1></div>
+  <div *ngIf="planZaPrikazivanje">
+    <div *ngFor="let obrok of planZaPrikazivanje">
+      <h2>{{obrok.Naziv}}</h2>
+      <h3>Dani: {{obrok.Dan}}</h3>
+      <h3>Sastojci: {{obrok.Sastojci}}</h3>
+      <h3>{{obrok.NacinPripreme}}</h3>
+    </div>
+  </div>
+  <div>
+    <button type="button" class="btn btn-danger mr-3" (click)="zatvoriModalObrisi()"> <i class="fas fa-long-arrow-alt-left"></i></button>
+    <button type="button" class="btn btn-danger" (click)="obrisiPlan(planZaPrikazivanje.ID)"><i class="fas fa-trash-alt"></i></button>
+</div>
+</jw-modal>
+<!--MAIN CONTENT-->
+<div class="wrap">
+  <div class="container">
+      <div class="row">
+        <div class="col" *ngIf="planovi">
+          <div *ngFor="let plan of planovi" class="plan" (click)="prikaziDetalje(plan)">
+            <h2>{{ plan.Naziv }}</h2>
+            <h3>Tip ishrane: {{ plan.Tip }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col btnNoviDiv">
+          <button type="button" class="btn btn-warning" (click)="noviPlanIshraneKlik()"><i class="fas fa-plus-square"></i></button>
+        </div>
+      </div>
+  </div>
+</div>
+  <jw-modal id="modal">
+    <div class="wrapModal">
+    <div class="container-fluid containerModal">
+    <div class="row">
+    <div class="col dugmeObrokNovi">
+      <h2>Kreiranje obroka</h2>
+      <button type="button" class="btn btn-warning" (click)="napraviObrok()">Napravi novi obrok</button>
+      <div class="col" [hidden]="!noviObrokClick">
+        <form>
+          <mat-form-field class="example-full-width mt-3 mr-3" appearance="fill">
+            <mat-label>Naziv</mat-label>
+            <input matInput placeholder="Naziv" [(ngModel)]="noviObrok.Naziv" name="Naziv">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="mr-3 mt-3">
+            <mat-label>Tipovi obroka</mat-label>
+            <mat-select [(ngModel)]="noviObrok.Tip" name="Tip">
+              <mat-option *ngFor="let tip of nizTipovaObroka" [value]="tip">
+                {{tip}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class=" mt-3">
+            <mat-label>Vrsta obroka</mat-label>
+            <mat-select  [(ngModel)]="noviObrok.VrstaObroka" name="Vrsta">
+              <mat-option *ngFor="let vrsta of nizVrstiObroka" [value]="vrsta">
+                {{vrsta}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Sastojci</mat-label>
+            <textarea matInput [(ngModel)]="noviObrok.Sastojci" name="Sastojci"></textarea >
+          </mat-form-field>
+          <br>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Način pripreme</mat-label>
+            <textarea matInput [(ngModel)]="noviObrok.NacinPripreme" name="NacinPripreme"></textarea>
+          </mat-form-field>
+          <div class="col dugmePotrvrdiObrok">
+            <button type="submit" class="btn btn-success" (click)="potvrdiPromene()"><i class="fas fa-check-circle"></i></button>
+          </div>  
+        </form>
+      </div>
+    </div> 
+    <div class="pretraga col">
+    <h2>Pretraga po vrsti i tipu</h2>
+    <mat-form-field appearance="fill" class="mr-3">
+    <mat-label>Tip obroka</mat-label>
+    <mat-select [(ngModel)]="selectedTip" name="selectedTip">
+    <mat-option *ngFor="let tip of tipoviObroka" [value]="tip">
+        {{tip}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+      <mat-form-field appearance="fill" class="mr-3">
+        <mat-label>Vrsta</mat-label>
+        <mat-select [(ngModel)]="noviPlan.Tip" name="selectedVrsta" >
+        <mat-option *ngFor="let vrsta of vrstaObroka" [value]="vrsta">
+          {{vrsta}}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <br/>
+      <div>
+        <div class="obroci" *ngIf="obroci">
+          <h3 *ngFor="let obrok of obroci" class="obrok" (click)="dodajUListu(obrok,selectedTab)">{{obrok.Naziv}}<hr></h3>
+      </div>
+      </div>
+      <button type="button" class="btn btn-info mb-2 mr-3" (click)="pretraga()"><i class="fas fa-search"></i></button>
+    </div>
+      <div class="col">
+        <form #f='ngForm'>
+        <div>
+          <h2>Detalji o planu ishrane</h2>
+          <mat-form-field class="example-full-width ml-3">
+            <mat-label>Naziv plana</mat-label>
+            <input matInput [(ngModel)]="noviPlan.Naziv" name="Naziv" required>
+          </mat-form-field>
+        </div>
+        <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
+          <mat-tab label="Ponedeljak">
+          <h3 *ngFor="let obrok of ponedeljak">{{obrok.Naziv}}
+            <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(obrok,selectedTab)">X</button>
+            <hr>
+          </h3>   
+          </mat-tab>
+          <mat-tab label="Utorak">
+            <h3 *ngFor="let obrok of utorak">{{obrok.Naziv}}
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(obrok,selectedTab)">X</button>
+            </h3> 
+          </mat-tab>
+          <mat-tab label="Sreda">
+            <h3 *ngFor="let obrok of sreda">{{obrok.Naziv}}
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(obrok,selectedTab)">X</button>
+            </h3> 
+          </mat-tab>
+          <mat-tab label="Četvrtak">
+            <h3 *ngFor="let obrok of cetvrtak">{{obrok.Naziv}}
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(obrok,selectedTab)">X</button>
+            </h3> 
+          </mat-tab>
+          <mat-tab label="Petak">
+            <h3 *ngFor="let obrok of petak">{{obrok.Naziv}}
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(obrok,selectedTab)">X</button>
+            </h3> 
+          </mat-tab>
+          <mat-tab label="Subota">
+            <h3 *ngFor="let obrok of subota">{{obrok.Naziv}}
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(obrok,selectedTab)">X</button>
+            </h3> 
+          </mat-tab>
+          <mat-tab label="Nedelja">
+            <h3 *ngFor="let obrok of nedelja">{{obrok.Naziv}}
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(obrok,selectedTab)">X</button>
+            </h3> 
+          </mat-tab>
+        </mat-tab-group>
+        <div class="col dugmeNapravi">
+          <button type="button" class="btn btn-warning m-3" (click)="napraviPlanIshrane()" [disabled]="!f.valid" *ngIf="ponedeljak[0] || utorak[0] || sreda[0] || cetvrtak[0] || petak[0] || subota[0] || nedelja[0]"><i class="fas fa-plus-square"></i></button>
+        </div>
+      </form>  
+      </div>
+      <div class="row">
+        <!-- <div class="col dugmeObrokNovi">
+          <button type="button" class="btn btn-warning" (click)="napraviObrok()">Napravi novi obrok</button>
+        </div>  -->
+      </div> 
+  </div>
+  </div>
+</div>
+  </jw-modal>
+<!--MAIN CONTENT ENDS-->
+
+<!--FOOTER-->
+<app-footer></app-footer>
+<!--FOOTER ENDS-->

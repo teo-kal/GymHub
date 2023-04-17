@@ -1,0 +1,33 @@
+.wrap{
+    height: 75.5vh;
+}
+.clanska-karta{
+    height: 50%;
+}
+.trener{
+    height: 50%;
+}
+.plan-da-danas{
+    height: 50%;
+}
+.clanarina{
+    height: 50%;
+}
+.nav-link
+{
+    font-size: 20px;
+}
+.navbar-brand
+{
+    font-size: 25px;
+}
+.container{
+    opacity: 0.9;
+    background-color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.wrap{
+    background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+}

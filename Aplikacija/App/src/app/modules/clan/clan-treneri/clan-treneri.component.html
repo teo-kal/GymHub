@@ -1,0 +1,121 @@
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/clan">GymHub</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/clan">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/clan/treneri">Treneri</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clan/vezbe">Vežbe</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Planovi
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/clan/planovi/trening">Trening</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/clan/planovi/ishrana">Ishrana</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/clan/radio" target="_blank">GymHub Radio</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img src="assets/icons/settings_white_16.png" />
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/clan/podesavanja">Podešavanja</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/clan/prijavi-problem"
+                >Prijavi problem</a
+              >
+            </li>
+            <li><app-logout></app-logout></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--NAVBAR ENDS-->
+<!--CONTENT-->
+<jw-modal id="confirm">
+  <h2>Da li ste sigurni da želite da trenirate kod ovog trenera?</h2>
+<button class="btn btn-success ml-3" (click)="izaberiTrenera()"><i class="fas fa-check-circle"></i></button>
+<button class="btn btn-danger" (click)="modalService.close('confirm')"><i class="fas fa-window-close"></i></button>
+</jw-modal>
+<div class="wrap">
+  <div class="container">
+    <div *ngFor="let t of treneriObv | async" class="trener">
+      <div class="row">
+        <div class="col-4">
+          <img *ngIf="t.Slika" [src]="'http://localhost:3000/'+t.Slika" alt="slika" class="treneri-img img-fluid" />
+          <img *ngIf="!t.Slika && t.Pol=='M'" src="../../../../assets/Avatars/maleAvatar.png" alt="default avatar" class="treneri-img img-fluid"/>
+          <img *ngIf="!t.Slika && t.Pol=='Z'" src="../../../../assets/Avatars/femaleAvatar.png" alt="default avatar" class="treneri-img img-fluid"/>
+        </div>
+        <div class="col-6">
+          <h1>{{ t.Ime }} {{t.Prezime}}</h1>
+          <h2>Specijalizacija: {{ t.Specijalizacija }}</h2>
+          <h3>Radno vreme: {{ t.RadnoVreme }}</h3>
+          <h3>Broj personalnih treninga: {{t.BrPersTreninga}}</h3>
+          <button *ngIf="!trenerIzabran"
+            type="button"
+            class="btn btn-warning"
+            (click)="izaberiTreneraKlik(t)"
+            [disabled]="trenerIzabran"
+          >
+            Prijavi se kod ovog trenera
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--CONTENT ENDS-->
+<!--FOOTER-->
+<app-footer></app-footer>
+<!--FOOTER ENDS-->

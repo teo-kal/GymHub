@@ -1,0 +1,322 @@
+<jw-modal id="modal">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="example-container col">
+        <h2>Vežbe</h2>
+        <mat-form-field appearance="fill">
+          <mat-label>Izaberite mišićnu grupu</mat-label>
+          <mat-select>
+            <mat-option
+              *ngFor="let grupa of misicneGrupe"
+              [value]="grupa"
+              (click)="ucitajMisicnuGrupu(grupa)"
+            >
+              {{ grupa }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="vezbe">
+          <div class="vezba" *ngFor="let vezba of vezbe">
+            <h3 (click)="dodajUListu(vezba, selectedTab)">{{ vezba.Naziv }}</h3>
+            <hr/>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <form #formNovi="ngForm" (ngSubmit)="submit()">
+          <h2>Podaci o planu</h2>
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label>Nivo</mat-label>
+              <mat-select [(ngModel)]="noviPlanTreninga.Nivo" name="nivo" required>
+                <mat-option *ngFor="let nivo of nivoi" [value]="nivo">
+                  {{nivo}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          <mat-form-field class="example-full-width ml-3">
+            <mat-label>Naziv plana</mat-label>
+            <input matInput [(ngModel)]="noviPlanTreninga.Naziv" name="Naziv" required>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width ml-3">
+            <mat-label>Trajanje u danima</mat-label>
+            <input matInput [(ngModel)]="noviPlanTreninga.Trajanje" name="Trajanje" required>
+          </mat-form-field>
+          <hr/>
+        </div>
+        <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
+          <mat-tab label="Ponedeljak"> 
+          <div *ngFor="let vezba of ponedeljak" class="vezba">
+            <h3>{{vezba.Naziv}}</h3>
+            <mat-form-field class="example-full-width">
+              <mat-label>Broj serija</mat-label>
+              <input matInput [(ngModel)]="vezba.BrSerija" name="BrSerija-{{vezba.name}}-PON">
+            </mat-form-field>
+            X
+            <mat-form-field class="example-full-width">
+              <mat-label>Broj ponavljanja</mat-label>
+              <input matInput [(ngModel)]="vezba.BrPonavljanja" name="BrPonavljanja-{{vezba.name}}-PON">
+            </mat-form-field>
+            <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(vezba, selectedTab)">X</button>
+          </div> 
+        </mat-tab>
+          <mat-tab label="Utorak">           
+            <div *ngFor="let vezba of utorak" class="vezba">
+              <h3>{{vezba.Naziv}}</h3>
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj serija</mat-label>
+                <input matInput [(ngModel)]="vezba.BrSerija" name="BrSerija-{{vezba.name}}-UTO">
+              </mat-form-field>
+              X
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj ponavljanja</mat-label>
+                <input matInput [(ngModel)]="vezba.BrPonavljanja" name="BrPonavljanja-{{vezba.name}}-UTO">
+              </mat-form-field>
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(vezba, selectedTab)">X</button>
+            </div> 
+        </mat-tab>
+          <mat-tab label="Sreda"> 
+            <div *ngFor="let vezba of sreda" class="vezba">
+              <h3>{{vezba.Naziv}}</h3>
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj serija</mat-label>
+                <input matInput [(ngModel)]="vezba.BrSerija" name="BrSerija-{{vezba.name}}-SRE">
+              </mat-form-field>
+              X
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj ponavljanja</mat-label>
+                <input matInput [(ngModel)]="vezba.BrPonavljanja" name="BrPonavljanja-{{vezba.name}}-SRE">
+              </mat-form-field>
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(vezba, selectedTab)">X</button>
+            </div> 
+           </mat-tab>
+          <mat-tab label="Četvrtak">           
+            <div *ngFor="let vezba of cetvrtak" class="vezba">
+              <h3>{{vezba.Naziv}}</h3>
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj serija</mat-label>
+                <input matInput [(ngModel)]="vezba.BrSerija" name="BrSerija-{{vezba.name}}-CET">
+              </mat-form-field>
+              X
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj ponavljanja</mat-label>
+                <input matInput [(ngModel)]="vezba.BrPonavljanja" name="BrPonavljanja-{{vezba.name}}-CET">
+              </mat-form-field>
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(vezba, selectedTab)">X</button>
+            </div> 
+        </mat-tab>
+          <mat-tab label="Petak">     
+            <div *ngFor="let vezba of petak" class="vezba">
+              <h3>{{vezba.Naziv}}</h3>
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj serija</mat-label>
+                <input matInput [(ngModel)]="vezba.BrSerija" name="BrSerija-{{vezba.name}}-PET">
+              </mat-form-field>
+              X
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj ponavljanja</mat-label>
+                <input matInput [(ngModel)]="vezba.BrPonavljanja" name="BrPonavljanja-{{vezba.name}}-PET">
+              </mat-form-field>
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(vezba, selectedTab)">X</button>
+            </div> 
+        </mat-tab>
+          <mat-tab label="Subota">          
+            <div *ngFor="let vezba of subota" class="vezba">
+              <h3>{{vezba.Naziv}}</h3>
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj serija</mat-label>
+                <input matInput [(ngModel)]="vezba.BrSerija" name="BrSerija-{{vezba.name}}-SUB">
+              </mat-form-field>
+              X
+              <mat-form-field class="example-full-width">
+                <mat-label>Broj ponavljanja</mat-label>
+                <input matInput [(ngModel)]="vezba.BrPonavljanja" name="BrPonavljanja-{{vezba.name}}-SUB">
+              </mat-form-field>
+              <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(vezba, selectedTab)">X</button>
+            </div> 
+         </mat-tab>
+        <mat-tab label="Nedelja">           
+          <div *ngFor="let vezba of nedelja" class="vezba">
+            <h3>{{vezba.Naziv}}</h3>
+            <mat-form-field class="example-full-width">
+              <mat-label>Broj serija</mat-label>
+              <input matInput [(ngModel)]="vezba.BrSerija" name="BrSerija-{{vezba.name}}-NED">
+            </mat-form-field>
+            X
+            <mat-form-field class="example-full-width">
+              <mat-label>Broj ponavljanja</mat-label>
+              <input matInput [(ngModel)]="vezba.BrPonavljanja" name="BrPonavljanja-{{vezba.name}}-NED">
+            </mat-form-field>
+            <button type="button" class="btn btn-danger ml-3" (click)="izbaciIzListe(vezba, selectedTab)">X</button>
+          </div>  
+        </mat-tab>
+        </mat-tab-group>
+        <div class="m-3">
+        <button type="submit" class="btn btn-success" *ngIf="ponedeljak[0] || utorak[0] || sreda[0] || cetvrtak[0] || petak[0] || subota[0] || nedelja[0]" [disabled]="!formNovi.valid"><i class="fas fa-check-circle"></i></button>
+      </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <div class="buttons">
+    <button type="button"class="btn btn-danger"(click)="modalService.close('modal')"><i class="fas fa-long-arrow-alt-left"></i></button>
+  </div>
+</jw-modal>
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/trener">GymHub</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/trener">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/trener/klijenti">Moji klijenti</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/trener/vezbe">Vežbe</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Planovi
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item active" href="/trener/planovi/trening"
+                >Trening</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/trener/planovi/ishrana"
+                >Ishrana</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/trener/radio" target="_blank"
+            >GymHub Radio</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img src="assets/icons/settings_white_16.png" />
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/trener/podesavanja"
+                >Podešavanja</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/trener/prijavi-problem"
+                >Prijavi problem</a
+              >
+            </li>
+            <li><app-logout></app-logout></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--NAVBAR ENDS-->
+<jw-modal id="modal-Detalji">
+  <div>
+    <h1>{{ nazivPlana }}</h1>
+  </div>
+  <div *ngIf="planZaPrikazivanje">
+    <table class="tableDetalji">
+      <tr class="trDetalji">
+        <th>Vežba</th>
+        <th>Broj serija</th>
+        <th>Broj ponavljanja/sekundi</th>
+        <th>Dani</th>
+      </tr>
+      <tr
+        *ngFor="let vezba of planZaPrikazivanje.naziviVezbiPlana; let i = index"
+        class="trDetalji"
+      >
+        <td class="tdDetalji">{{ vezba }}</td>
+        <td class="tdDetalji">
+          {{ planZaPrikazivanje.brSerijaZaSveVezbe[i] }}
+        </td>
+        <td class="tdDetalji">
+          {{
+            planZaPrikazivanje.brPonavljanja[i] ||
+              planZaPrikazivanje.brSekundi[i]
+          }}
+        </td>
+        <td class="tdDetalji">
+          {{planZaPrikazivanje.dani[i]}}
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="mt-3">
+    <button type="button" class="btn btn-danger mr-3" (click)="zatvoriModalObrisi()"> <i class="fas fa-long-arrow-alt-left"></i></button>
+    <button type="button" class="btn btn-danger" (click)="obrisiPlan(planZaPrikazivanje.ID)"><i class="fas fa-trash-alt"></i></button>
+  </div>
+</jw-modal>
+<!--MAIN CONTENT-->
+<div class="wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col" *ngIf="planovi">
+        <div
+          *ngFor="let plan of planovi"
+          class="plan"
+          (click)="prikaziDetalje(plan)"
+        >
+          <h2>{{ plan.Naziv }}</h2>
+          <h3>Nivo: {{ plan.Nivo }} {{ plan.Trajanje }} dana</h3>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col btnNoviDiv">
+        <button type="button" class="btn btn-warning" (click)="dodajNoviKlik()">
+          <i class="fas fa-plus-square"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MAIN CONTENT ENDS-->
+
+<!--FOOTER-->
+<app-footer></app-footer>
+<!--FOOTER ENDS-->

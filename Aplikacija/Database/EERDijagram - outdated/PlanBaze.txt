@@ -1,0 +1,116 @@
+Lista entiteta:
+1. Korisnik
+2. Admin (izvedeno iz Korisnik)
+3. Osoba (izvedeno iz Korisnik)
+4. Trener (izvedeno iz Osoba)
+5. Clan (izvedeno iz Osoba)
+6. Clanarina
+7. Grupa
+8. Trening
+9. PlanTreninga
+10. PlanIshrane
+11. Vezba
+?12. Komentar
+------------------------------------
+1. KORISNIK
+***Atributi:
+-ID - int (surogat, primary key)
+-TipKorisnika - char NOT NULL //A - admin, T - trener, C - clan
+-KorisnickoIme - varchar(20) NOT NULL 
+-Lozinka - varchar(20) NOT NULL  //potrebno hesirati, a ne treba cuvati u plaintext
+-Email - varchar(40) NOT NULL 
+-Slika - varchar(100) NULL //putanja do profilne slike. Ako je null moze da se postavi neka defaultna, ali to ne mora da se resava preko baze
+
+2. ADMIN 
+***Atributi:
+???
+
+3. OSOBA //apstraktna klasa generalno
+***Atributi:
+-KORISNIK.ID tj ID - int (foreign key, primary key)
+-JMBG - varchar(13) NOT NULL 
+-Ime - varchar(15) NOT NULL 
+-Prezime - varchar(15) NOT NULL 
+-DatRodjenja - date NOT NULL 
+-Pol - char NOT NULL //M - musko, Z - zensko, O - ostalo  
+-BrRacuna - varchar(24) NULL //24 jer 4 * 5 cif + 4 razmaka
+-Telefon - varchar(10/11) VISEVREDNOSNI ATTR NOT NULL//Mozda je najbolje da ih cuvamo bez /, - i razmaka. Eventualno 06X/XXXXXXX
+//?BrClanskeKarte - varchar(5) //Ovo mislim da ne treba da se cuva u bazi jer nema koristi od njega. Moze da se generise gde treba kao KORISNIK.TipKorisnika + KORISNIK.ID ///UPDATE: OBRISANO IZ BAZE
+
+4. TRENER
+***Atributi:
+-OSOBA.ID tj ID - int (foreign key, primary key)
+-Zvanje - varchar(30) NOT NULL
+-Specijalizacija - varchar(20) NOT NULL
+-GodIskustva - int NOT NULL 
+-DatZaposlenja - date NOT NULL
+-SocMreze - varchar(?) VISEVREDNOSNI ATTR NOT NULL //Da li je u formatu: 1) "FACEBOOK: Ime Prezime", "INSTAGRAM: @username" ILI 2) "https://..." i vise linkova za svaki social media? ///EDIT: DRUGA VARIJANTA
+-Ocena - double NULL //broj od 1-5 (float)
+30.03: Br personalnih treninga na dnevnom nivou
+
+5. CLAN
+***Atributi:
+-OSOBA.ID tj ID - int (foreign key, primary key)
+-TRENER.ID tj TrenerID - int (foreign key) NULL
+-GRUPA.ID tj GrupaID - int (foreign key) NULL
+-Cilj - varchar(15) NOT NULL //Moguce vrednosti: "Mrsavljenje", "Rekreacija",...	///EDIT: NOT NULL
+//?Tezina - int NULL //Ne znam da li da cuvamo ovo. Ako zelimo da vodimo statistiku onda moramo da pamtimo i sve prethodne vrednosti		///EDIT: NAJVEROVATNIJE NE
+-DatUclanjivanja - date NOT NULL
+
+6. CLANARINA:
+***Atributi:
+-TipClanarine - char (primary key) //S - samostalno, G - grupa, P - personalni trening
+-Cena - money NOT NULL
+
+7. GRUPA:		///Za clanove u grupi mora da se zakazuje trening u pozadini ako to zele
+***Atributi:
+-GrupaID tj ID - int ///EDIT: OVO JE SAMO PK
+-TRENER.ID - int PK
+-Termin - varchar(20) NOT NULL //Format "Ponedeljak: 20:00" npr?
+-Naziv - varchar(15)
+-BrClanova - int
+
+8. TRENING
+***Atributi:
+-CLAN.ID tj ClanID - int (foreign key, primary key)
+-Kod - varchar(6) (primary key)
+-Termin - datetime NOT NULL //Konkretan datum i satnica
+
+9. PLAN_TRENINGA
+***Atributi:
+-Broj - int //Da li da ovo bude = ( SELECT COUNT(*) FROM PLAN_TRENINGA WHERE TrenerID = @trenerID ) + 1 ? 
+-TRENER.ID tj TrenerID - int //STA DA BUDE PK OVDE? Kombinacija ova dva?
+?Naziv - varchar(20) NOT NULL
+-Nivo - char NULL //b - beginner, p - pro, m - medium npr?
+-Trajanje - int //Koliko dugo traje plan
+-BrKalorija - int 
+
+10. PLAN_ISHRANE
+***Atributi:
+-Broj - int //Da li da ovo bude = ( SELECT COUNT(*) FROM PLAN_TRENINGA WHERE TrenerID = @trenerID ) + 1 ? 
+-TRENER.ID tj TrenerID - int //STA DA BUDE PK OVDE? Kombinacija ova dva?
+-Tip - char //vegan, vegetarian...?
+-BrKalorija - int 
+
+11. VEZBA
+***Atributi:
+-ID - int (surogat, primary key)
+-Naziv - varchar(20) NOT NULL
+-Opis - varchar(150) NOT NULL
+-VideoLink - varchar(45) NOT NULL
+-Slika - varchar(100) NOT NULL
+-Misic - varchar(20) NOT NULL //Grudi, Bicepsi, Tricepsi,....
+?Oprema - ? ? //Da li da stavljamo ovo uopste? Da li je vezba sa body weight, dumbbells, resistance bands etc?
+?Koraci
+
+
+
+
+
+
+
+
+
+
+
+

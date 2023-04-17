@@ -1,0 +1,70 @@
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/trener">GymHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/trener">Početna</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/trener/klijenti">Moji klijenti</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/trener/vezbe">Vežbe</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Planovi
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/trener/planovi/trening">Trening</a></li>
+              <li><a class="dropdown-item" href="/trener/planovi/ishrana">Ishrana</a></li>
+            </ul>
+          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/trener/radio">GymHub Radio</a>
+            </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="assets/icons/settings_white_16.png">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/trener/podesavanja">Podesavanja</a></li>
+              <li><a class="dropdown-item" href="/trener/prijavi-problem">Prijavi problem</a></li>
+              <li><app-logout></app-logout></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<!--NAVBAR ENDS-->
+
+<!--MAIN CONTENT-->
+<div class="wrap">
+<div class="container">
+  <div *ngFor="let vezba of vezbe | async" class="vezba">
+    <div class="container">
+      <div class="row">
+    <h1>{{ vezba.Naziv }}</h1>
+    <p>{{ vezba.Opis }}</p>
+  </div>
+    <div class="row">
+      <div class="row">
+        <iframe *ngIf="vezba.VideoLink" width="600px" height="400px" class="pt-3 pb-3" [src]="vezba.VideoLink | safe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p *ngIf="!vezba.VideoLink">Ova vežba trenutno nema link</p>
+      </div>
+  </div>
+  </div>
+  </div>
+</div>
+</div>
+<!--MAIN CONTENT ENDS-->
+
+<!--FOOTER-->
+<app-footer></app-footer>
+<!--FOOTER ENDS-->

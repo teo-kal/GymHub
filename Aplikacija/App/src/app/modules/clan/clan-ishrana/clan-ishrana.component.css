@@ -1,0 +1,60 @@
+.nav-link {
+  font-size: 20px;
+}
+.navbar-brand {
+  font-size: 25px;
+}
+
+.container {
+  background-color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.wrap {
+  background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+  padding-top: 2%;
+}
+table {
+  width: 100%;
+}
+.noPlan {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  text-align: center;
+}
+
+tr {
+  display: flex;
+  justify-content: space-around;
+}
+
+th {
+  font-size: larger;
+}
+.odd {
+  background-color: #afd0d6;
+  border-radius: 10px;
+}
+
+.even {
+  background-color: #ffe1ea;
+  border-radius: 10px;
+}
+img {
+  flex-grow: 1;
+}
+td{
+  cursor: pointer;
+}
+td:hover{
+  text-decoration: underline;
+}
+.buttonNazad{
+  text-align: center;
+}

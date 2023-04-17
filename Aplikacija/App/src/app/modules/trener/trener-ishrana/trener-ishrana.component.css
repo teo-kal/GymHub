@@ -1,0 +1,57 @@
+.nav-link {
+  font-size: 20px;
+}
+.navbar-brand {
+  font-size: 25px;
+}
+.plan {
+  background: white;
+  box-shadow: lightgray 10px 5px 5px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.wrap {
+  background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-shrink: 1;
+  flex-grow: 1;
+  flex-basis: 720px;
+}
+.container {
+  border-radius: 10px;
+  padding-top: 10px;
+  background-color: rgb(228, 234, 242);
+  height: 75vh;
+  overflow: auto;
+}
+.plan:hover {
+  background-color: #cba135;
+}
+
+.btnNoviDiv {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.obrok{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.dugmeNapravi{
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.wrapModal{
+  display: flex;
+  flex-basis: 1000px;
+}
+
+.dugmeObrokNovi{
+  text-align: center;
+}

@@ -1,0 +1,28 @@
+*06.05:
+1. Tabela TRENING:
+a) ID (auto increment) PK
+b) UNIQUE (Kod, ClanID) //i nisu nullable ofc
+2. Tabela CLANARINA:
+a) ClanID je PK s obzirom da je 1:1 veza i svaki clan mora da ima clanarinu
+b) Dodata vrednost 'Undefined' za tip clanarine (za svaki slucaj ako bude nastao neki problem. Npr, mozda nekako napravimo da se clanarina kreira automatski, a clan se nije odlucio za tip clanarine. Cisto neka vrednost da postoji s obzirom da Tip ne sme da bude null)
+3. Tabela (M:N) PLAN_TRENINGA_VEZBA:
+a) ID - PK
+b) UNIQUE (PlanTrID, VezbaID) //i nisu nullable ofc
+4. Tabela (M:N) PLAN_ISHRANE_OBROK:
+a) ID - PK
+b) UNIQUE (PlanIsID, ObrokID) //i nisu nullable ofc
+5. Tabela (Visevrednosni attr) TELEFON_OSOBA:
+a) ID - PK
+b) UNIQUE(OsobaID, Telefon) //i nisu nullable ofc
+6. Tabela (Visevrednosni attr) SOCMREZA_TRENER:
+a) ID - PK
+b) UNIQUE(TrenerID, SocMreza) //i nisu nullable ofc
+
+*09.05:
+1. Tabela (M:N) PLAN_TRENINGA_VEZBA:
+a) Dodat atribut BrSekundi
+
+*12.05:
+1. Tabela KORISNIK:
+a) Promenjena email na 50 karaktera
+b) Promenjen username na 30 karaktera

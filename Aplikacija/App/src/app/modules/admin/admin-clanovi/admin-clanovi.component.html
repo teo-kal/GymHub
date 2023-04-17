@@ -1,0 +1,123 @@
+
+<!--MODAL NOVI-->
+<jw-modal id="modal-Novi">
+    <form #fDodaj='ngForm' (ngSubmit)="dodaj()" novalidate *ngIf="clanZaDodavanje">
+        <h1>Osnovni podaci</h1>
+
+        <mat-form-field appearance="fill">
+          <mat-label>JMBG</mat-label>
+          <input matInput required [(ngModel)]="clanZaDodavanje.JMBG" name="jmbg" minlength="13" maxlength="13">
+      </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Ime</mat-label>
+            <input matInput required [(ngModel)]="clanZaDodavanje.Ime" name="ime">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Prezime</mat-label>
+            <input matInput required [(ngModel)]="clanZaDodavanje.Prezime" name="prezime">
+        </mat-form-field>   
+
+        <mat-form-field appearance="fill">
+          <mat-label>Datum rodjenja</mat-label>
+          <input matInput [matDatepicker]="picker" name="datumRegisterRodjenje" [(ngModel)]="clanZaDodavanje.DatRodjenja" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field> 
+
+        <mat-form-field appearance="fill">
+            <mat-label>Pol</mat-label>
+            <select matNativeControl [(ngModel)]="clanZaDodavanje.Pol" name="pol" required>
+              <option value="M">Muški</option>
+              <option value="Ž">Ženski</option>
+            </select>
+          </mat-form-field> 
+
+        <br/>
+        <mat-form-field appearance="fill">
+            <mat-label>Korisničko ime</mat-label>
+            <input matInput required [(ngModel)]="clanZaDodavanje.KorisnickoIme" name="username">
+        </mat-form-field>   
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Lozinka</mat-label>
+            <input matInput required [(ngModel)]="clanZaDodavanje.Lozinka" name="lozinka">
+        </mat-form-field>   
+
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput required [(ngModel)]="clanZaDodavanje.Email" name="email" type="email">
+        </mat-form-field> 
+        <br/>
+        <p>Podaci o ciljevima</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Cilj</mat-label>
+            <select matNativeControl [(ngModel)]="clanZaDodavanje.Cilj" name="cilj" required>
+              <option value="Mršavljenje">Mršavljenje</option>
+              <option value="Dobijanje mišićne mase">Dobijanje mišićne mase</option>
+              <option value="Održavanje figure">Održavanje figure</option>
+            </select>
+          </mat-form-field>
+          <br/>
+          <button type="submit" class="btn btn-success mb-3" [disabled]="!fDodaj.valid"><i class="fas fa-check-circle"></i></button>
+    </form>
+    <button type="button" class="btn btn-danger" (click)="modalService.close('modal-Novi')"><i class="fas fa-window-close"></i></button>
+</jw-modal>
+<jw-modal id="modal-Confirm">
+  <h2>Da li ste sigurni?</h2>
+  <div class="mt-3 mb-3">
+    <mat-form-field appearance="fill">
+      <mat-label>Tip članarine</mat-label>
+      <mat-select [(ngModel)]="tipClanarine" name="clanarina" required>
+        <mat-option *ngFor="let tip of tipClanarina" [value]="tip">
+          {{tip}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Period uplate</mat-label>
+      <mat-select [(ngModel)]="periodClanarine" name="period" required>
+        <mat-option *ngFor="let uplata of uplate" [value]="uplata.value">
+          {{uplata.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br/>
+  <button type="button" class="btn btn-success mr-3" (click)="potvrdiUplatu()"><i class="fas fa-check-circle"></i></button>
+  <button type="button" class="btn btn-danger" (click)="modalService.close('modal-Confirm')"><i class="fas fa-window-close"></i></button>
+  </div>
+</jw-modal>
+<!--STRANICA-->
+<div class="wrap">
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <nav class="nav flex-column">
+                <h2>Dashboard</h2>
+                <hr>
+                <a class="nav-link active" href="admin/clanovi">Članovi</a>
+                <a class="nav-link" href="admin/grupe">Grupe</a>
+                <a class="nav-link" href="admin/treneri">Treneri</a>
+                <a class="nav-link" href="admin/vezbe">Vežbe</a>
+                <a class="nav-link" href="admin/ishrana">Planovi ishrane</a>
+                <a class="nav-link" href="admin/trening">Planovi treninga</a>
+                <app-logout></app-logout>
+            </nav>
+        </div>
+        <div class="col-7 content">
+            <div *ngFor="let clan of clanovi | async" class="clan">
+                <p>Ime i prezime: {{clan.Ime}} {{clan.Prezime}}</p>
+                <p>Korisnicko ime: {{clan.KorisnickoIme}}</p>
+                <p>Email: {{clan.Email}}</p>
+                <p>Datum poslednjeg plaćanja članarine: {{clan.Clanarina.DatPoslednjegPlacanja}}</p>
+                <button type="button" class="btn btn-warning m-1" (click)="potvrdiUplatuKlik(clan)"><i class="fas fa-donate"></i></button>
+                <button type="button" class="btn btn-danger m-1" (click)="obrisi(clan)"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary m-1 btnDodaj" (click)="dodajKlik()"><i class="fas fa-plus-square"></i></button>
+        </div>
+    </div>
+</div>
+</div>

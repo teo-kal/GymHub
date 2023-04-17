@@ -1,0 +1,5 @@
+1.a Povezi MySql sa projektom, Sequelize uspostavi
+1. Napravi Modele za ORM, gledaj Sequelize docs
+2. Pravi controllere za modele koje si napravio
+3. Pravi routere za te controllere, CRUD nam treba (Postmen-om ih proveri)
+4. Auth0, RBAC podesi, imamo tri uloge. 

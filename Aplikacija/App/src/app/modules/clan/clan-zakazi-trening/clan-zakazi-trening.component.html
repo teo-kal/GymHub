@@ -1,0 +1,21 @@
+<jw-modal id="modal">
+  <h3>Da li želite da zakažete trening dana: {{day}} u ovo vreme: {{time}}</h3>
+  <button type="button" class="btn btn-success" (click)="zakaziTrening()">
+    <i class="fas fa-check-circle"></i>
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger ml-3"
+    (click)="modalService.close('modal')"
+  >
+  <i class="fas fa-long-arrow-alt-left"></i>
+  </button>
+</jw-modal>
+<div class="wrap">
+  <div class="container">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+    <a href="/clan"
+      ><button type="button" class="btn btn-danger ml-2 mt-2"><i class="fas fa-long-arrow-alt-left"></i></button></a
+    >
+  </div>
+</div>

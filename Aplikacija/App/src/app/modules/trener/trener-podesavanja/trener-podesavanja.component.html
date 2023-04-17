@@ -1,0 +1,90 @@
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/trener">GymHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/trener">Početna</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/trener/klijenti">Moji klijenti</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/trener/vezbe">Vežbe</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Planovi
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/trener/planovi/trening">Trening</a></li>
+              <li><a class="dropdown-item" href="/trener/planovi/ishrana">Ishrana</a></li>
+            </ul>
+          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/trener/radio" target="_blank">GymHub Radio</a>
+            </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="assets/icons/settings_white_16.png">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item active" href="/trener/podesavanja">Podešavanja</a></li>
+              <li><a class="dropdown-item" href="/trener/prijavi-problem">Prijavi problem</a></li>
+              <li><app-logout></app-logout></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<!--NAVBAR ENDS-->
+
+<!--MAIN CONTENT-->
+<div class="wrap">
+  <div class="container">
+    <div class="row" *ngIf="(trenerObv|async) as trener">
+      <div class="col-3">
+        <img class="img img-fluid" [src]="'http://localhost:3000/'+trener.korisnik.Slika" *ngIf="trener.korisnik.Slika">
+        <img *ngIf="!trener.korisnik.Slika && trener.osoba.Pol=='M'" src="../../../../assets/Avatars/maleAvatar.png" class="img img-fluid">
+        <img *ngIf="!trener.korisnik.Slika && trener.osoba.Pol=='Z'" src="../../../../assets/Avatars/femaleAvatar.png" class="img img-fluid">
+        <div class="form-group m-3">
+          <form enctype="multipart/form-data" (ngSubmit)="promeniSliku()" #formSlika='ngForm'>
+            <input type="file" name="avatar" required (change)="onFileChanged($event)"/>
+            <button type="submit" class="btn btn-warning mt-3" [disabled]="!selectedFile!=''"><i class="fas fa-id-badge"></i></button>
+          </form>
+        </div>
+      </div>
+      <div class="col-5">
+        <form #f='ngForm'>
+        <mat-form-field appearance="fill">
+          <mat-label>Broj računa</mat-label>
+          <input matInput [(ngModel)]="trener.osoba.BrRacuna" name="BrRacuna" maxlength="24" minlength="24">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+          <mat-label>Broj presonalnih treninga</mat-label>
+          <input matInput [(ngModel)]="trener.trener.BrPersTreninga" name="BrPersTreninga" type="number" max="5" min="1">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+          <mat-label>Zvanje</mat-label>
+          <textarea matInput [(ngModel)]="trener.trener.Zvanje" name="Zvanje"></textarea>
+        </mat-form-field>
+        <div>
+        <button type="submit" class="btn btn-success" [disabled]="f.pristine || !f.valid" (click)="saveChanges(trener)"><i class="fas fa-check-square"></i></button>
+      </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MAIN CONTENT ENDS-->
+
+<!--FOOTER-->
+<app-footer></app-footer>
+<!--FOOTER ENDS-->

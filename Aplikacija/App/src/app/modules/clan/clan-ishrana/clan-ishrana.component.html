@@ -1,0 +1,158 @@
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/clan">GymHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/clan">Početna</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/clan/treneri">Treneri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/clan/vezbe">Vežbe</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Planovi
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/clan/planovi/trening">Trening</a></li>
+              <li><a class="dropdown-item active" href="/clan/planovi/ishrana">Ishrana</a></li>
+            </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="/clan/radio" target="_blank">GymHub Radio</a>
+            </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="assets/icons/settings_white_16.png">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/clan/podesavanja">Podešavanja</a></li>
+              <li><a class="dropdown-item" href="/clan/prijavi-problem">Prijavi problem</a></li>
+              <li><app-logout></app-logout></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>
+<!--MAIN CONTENT-->
+<jw-modal id="modal">
+  <div class="container" *ngIf="obrokZaPrikaz">
+    <div class="row">
+      <h1>{{obrokZaPrikaz.Naziv}}</h1>
+      <h2>{{obrokZaPrikaz.Tip}}</h2>
+    </div>
+    <div class="row">
+      <p>Sastojci: {{obrokZaPrikaz.Sastojci}}</p>
+      <p>{{obrokZaPrikaz.NacinPripreme}}</p>
+    </div>
+  </div>
+  <div class="buttonNazad">
+  <button type="button" class="btn btn-danger" (click)="modalService.close('modal')"><i class="fas fa-long-arrow-alt-left"></i></button>
+</div>
+</jw-modal>
+<div class="wrap">
+    <div class="container">
+        <div class="row">
+          <div class="col noPlan" *ngIf="!plan">
+            <h1>Trenutno nemate plan ishrane, da bi ste ga dobili morate izabrati trenera. Ako imate trenera, plan ishrane će Vam biti dodeljen uskoro.</h1>
+            <img src="../../../../assets/waiting.gif" class="img img-fluid">
+          </div>
+            <div class="col jela" *ngIf="plan">
+              <h1>{{plan.Naziv}}</h1>
+              <h2>Tip plana: {{plan.Tip}}</h2>
+              <div class="plan">
+              <div *ngIf="planPon" class="odd">
+                <h2>Dan: Ponedeljak</h2>
+                <table>
+                  <tr>
+                    <th>Obroci</th>
+                  </tr>
+                  <tr *ngFor="let obrok of planPon">
+                    <td (click)="prikaziDetalje(obrok)">{{obrok.Naziv}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div *ngIf="planUto" class="even">
+                <h2>Dan: Utorak</h2>
+                <table>
+                  <tr>
+                    <th>Obroci</th>
+                  </tr>
+                  <tr *ngFor="let obrok of planUto">
+                    <td (click)="prikaziDetalje(obrok)">{{obrok.Naziv}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div *ngIf="planSre" class="odd">
+                <h2>Dan: Sreda</h2>
+                <table>
+                  <tr>
+                    <th>Obroci</th>
+                  </tr>
+                  <tr *ngFor="let obrok of planSre">
+                    <td (click)="prikaziDetalje(obrok)">{{obrok.Naziv}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div *ngIf="planPon" class="even">
+                <h2>Dan: Četvrtak</h2>
+                <table>
+                  <tr>
+                    <th>Obroci</th>
+                  </tr>
+                  <tr *ngFor="let obrok of planCet">
+                    <td (click)="prikaziDetalje(obrok)">{{obrok.Naziv}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div *ngIf="planPet" class="odd">
+                <h2>Dan: Petrak</h2>
+                <table>
+                  <tr>
+                    <th>Obroci</th>
+                  </tr>
+                  <tr *ngFor="let obrok of planPet">
+                    <td (click)="prikaziDetalje(obrok)">{{obrok.Naziv}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div *ngIf="planSub" class="even">
+                <h2>Dan: Subota</h2>
+                <table>
+                  <tr>
+                    <th>Obroci</th>
+                  </tr>
+                  <tr *ngFor="let obrok of planSub">
+                    <td (click)="prikaziDetalje(obrok)">{{obrok.Naziv}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div *ngIf="planNed" class="odd">
+                <h2>Dan: Nedelja</h2>
+                <table>
+                  <tr>
+                    <th>Obroci</th>
+                  </tr>
+                  <tr *ngFor="let obrok of planNed">
+                    <td (click)="prikaziDetalje(obrok)">{{obrok.Naziv}}</td>
+                  </tr>
+                </table>
+              </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--MAIN CONTENT ENDS-->
+    
+    <!--FOOTER-->
+    <app-footer></app-footer>
+    <!--FOOTER ENDS-->
+    

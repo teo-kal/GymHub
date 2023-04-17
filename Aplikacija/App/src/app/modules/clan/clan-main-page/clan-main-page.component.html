@@ -1,0 +1,265 @@
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/clan">GymHub</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto px-2">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/clan"
+            >Početna</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clan/treneri">Treneri</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/clan/vezbe">Vežbe</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Planovi
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/clan/planovi/trening">Trening</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/clan/planovi/ishrana">Ishrana</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/clan/radio" target="_blank"
+            >GymHub Radio</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img src="assets/icons/settings_white_16.png" />
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-lg-end"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/clan/podesavanja">Podešavanja</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/clan/prijavi-problem"
+                >Prijavi problem</a
+              >
+            </li>
+            <li><app-logout></app-logout></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--NAVBAR ENDS-->
+<jw-modal id="modal-Plati">
+  <div class="container">
+    <h1>Molimo vas unesite potrebne podatke</h1>
+    <div class="row">
+      <ngx-payment-card #ngxPaymentCard
+                  [IBAN]="iban"
+                  [cardNumber]="cNumber"
+                  [securityCode]="sc"
+                  [name]="name">
+      </ngx-payment-card>
+    </div>
+    <div class="row mt-3">
+      <form #f='ngForm' class="forma">
+      <div class="col">  
+        <mat-form-field class="example-full-width">
+        <mat-label>IBAN</mat-label>
+        <input matInput [(ngModel)]="iban" name="iban" required maxlength="14">
+      </mat-form-field>
+    </div>
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <mat-label>Ime i prezime</mat-label>
+          <input matInput [(ngModel)]="name" name="name" maxlength="40" required>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <mat-label>Broj kartice</mat-label>
+          <input matInput [(ngModel)]="cNumber" name="cNumber" maxlength="14" required>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <mat-label>Sigurnosni kod</mat-label>
+          <input matInput [(ngModel)]="sc" name="sc" maxlength="3" required>
+        </mat-form-field>
+      </div>
+      <div class="col">
+      <mat-form-field appearance="fill">
+        <mat-label>Period uplate</mat-label>
+        <mat-select [(ngModel)]="selektovaniPeriod" name="period" required>
+          <mat-option *ngFor="let uplata of uplate" (click)="popust()" [value]="uplata.value">
+            {{uplata.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col" *ngIf="clanZaPlacanje">
+      <p>Vaš trenutni tip članarine je {{clanZaPlacanje.TipClanarine}}</p>
+      <button class="btn btn-warning mb-2" type="button" (click)="prikaziMenjanjeClanarine()" [hidden]="zeliPromenu">Želim da promenim tip članarine</button>
+      <div>
+        <mat-form-field appearance="fill" *ngIf="zeliPromenu">
+          <mat-label>Tip članarine</mat-label>
+          <mat-select [(ngModel)]="tipClanarine" name="clanarina" required>
+            <mat-option *ngFor="let tip of tipClanarina" [value]="tip">
+              {{tip}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col" *ngIf="f.valid">
+      <div [ngSwitch]="tipClanarine">
+        <h1>Cena vaše članarine je:
+        <span *ngSwitchCase="'Grupni'">{{periodpopust*2000}} rsd</span>
+        <span *ngSwitchCase="'Personalni'">{{periodpopust*3000}} rsd</span>
+        <span *ngSwitchCase="'Samostalni'">{{periodpopust*1500}} rsd</span>
+        </h1>
+      </div>
+    </div>
+      <div class="col">
+        <button class="btn btn-success" type="submit" (click)="platiClanarinu()" [disabled]="!f.valid"><i class="fas fa-money-bill-wave"></i></button>
+      </div>
+    </form>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger float-end" type="button" (click)="modalService.close('modal-Plati')"><i class="fas fa-long-arrow-alt-left"></i></button>
+      </div>
+    </div>
+  </div>
+</jw-modal>
+<!--MAIN CONTENT-->
+<div class="wrap">
+  <div class="container" *ngIf="(clanZaPrikaz) as clan">
+    <div class="row m-3">
+        <div class="kartica">
+            <img class="logo" src="../../../assets/Logo/BlackLogoLetters.png" alt="logo">
+            <div>
+              <h3>Dobrodošli {{clan.Ime}} {{clan.Prezime}}!</h3>
+              <h4>Datum poslednje uplate članarine: {{clan.DatPoslednjegPlacanja}} <button type="button" class="btn btn-warning" (click)="platiClanarinuKlik(clan)"><i class="fas fa-wallet"></i></button></h4>
+            </div>
+        </div>
+        </div>
+    <div class="row m-3">
+      <div class="col trener">
+        <h3 *ngIf="!clan.ImeTrenera">Trenutno nemate trenera, izaberite ga <a href="clan/treneri">ovde</a></h3>
+        <div *ngIf="clan.ImeTrenera">
+        <h2 *ngIf="!clan.NazivGrupe">Vaš trener</h2>
+        <h2 *ngIf="clan.NazivGrupe">Vaš trener i  grupa</h2>
+        <img *ngIf="clan.Slika" [src]="'http://localhost:3000/'+clan.Slika" class="img img-fluid">
+        <img *ngIf="!clan.Slika && clan.PolTrenera=='M'" src="../../../../assets/Avatars/maleAvatar.png" class="img img-fluid">
+        <img *ngIf="!clan.Slika && clan.PolTrenera=='Z'" src="../../../../assets/Avatars/femaleAvatar.png" class="img img-fluid">
+        <h3>{{clan.ImeTrenera}} {{clan.PrezimeTrener}}</h3>
+        <h3>Ocena: {{clan.Ocena}} <span [hidden]="clan.Ocenio"><i class="fas fa-arrow-up" (click)="vote('up',clan.TrenerID,clan.Ocena)"></i><i class="fas fa-arrow-down" (click)="vote('down',clan.TrenerID,clan.Ocena)"></i></span></h3>
+        <h3 *ngIf="clan.NazivGrupe">Grupa: {{clan.NazivGrupe}}</h3>
+      </div>
+    </div>
+      <div class="col plan-za-danas-trening">
+        <p *ngIf="!clan.NazivPlanaTreninga">Ovde bi stajali vaši plan treninga za danas</p>
+        <div *ngIf="clan.NazivPlanaTreninga">
+        <h2>Plan treninga za danas</h2>
+        <table>
+          <tr>
+            <th>Vežba</th>
+            <th>Broj serija</th>
+            <th>Broj ponavljanja</th>
+          </tr>
+        <tr *ngFor="let vezba of clan.NaziviVezbi; let i=index">
+            <td>{{vezba.Naziv}}</td> 
+            <td>{{clan.VezbeDetalji[i].BrSerija}}</td> 
+            <td>{{clan.VezbeDetalji[i].BrPonavljanja}}</td>
+        </tr>
+      </table>
+
+    </div>
+    <div class="vremeTreninga mt-3" *ngIf="clan.Trening">
+      <h4>Vaš sledeći trening je zakazan u <span class="termin">{{clan.Trening.Termin}}</span></h4>
+      <h4>Kod za trening: <span class="termin">{{clan.Trening.Kod}}</span></h4>
+    </div>
+      </div>
+      <div class="col plan-za-danas-ishrana">
+        <p *ngIf="!clan.NazivPlanaIshrane">Ovde bi stajali vaši planovi ishrane</p>
+        <div  *ngIf="clan.NazivPlanaIshrane" >
+        <h2>Plan ishrane za danas</h2>
+        <table>
+          <tr>
+            <th>Tip</th>
+            <th>Naziv</th>
+          </tr>
+        <tr *ngFor="let obrok of clan.Obroci">
+          <td>{{obrok.Tip}}</td>
+          <td>{{obrok.Naziv}}</td>
+        </tr>
+      </table>
+    </div>
+      </div>
+    </div>
+    <div class="row ml-3">
+      <div class="col">
+        <div *ngIf="!clan.Trening" [hidden]="clan.NazivGrupe"><span>Zakaži trening: </span><a href="/clan/zakazi"><button  type="button" class="btn btn-primary"><i class="fas fa-dumbbell"></i></button></a></div>
+        <div *ngIf="clan.Trening"><span>Otkaži trening: </span><button type="button" class="btn btn-danger" (click)="otkaziTrening()"><i class="fas fa-window-close"></i></button></div>
+      </div>
+      <div class="col-8">
+        <form #fBMI='ngForm' (ngSubmit)="izracunajBMI()">
+        <h3>Izračunajte svoj BMI indeks</h3>
+        <mat-form-field class="example-full-width mb-3" appearance="fill">
+          <mat-label>Visina (cm)</mat-label>
+          <input matInput placeholder="...cm" [(ngModel)]="visina" name="visina" required>
+        </mat-form-field>
+        <mat-form-field class="example-full-width mb-3 ml-2 mr-2" appearance="fill">
+          <mat-label>Težina (kg)</mat-label>
+          <input matInput placeholder="...kg" [(ngModel)]="tezina" name="tezina" required>
+        </mat-form-field>
+        <button class="btn btn-warning mb-3" type="submit"><i class="fas fa-balance-scale" [disabled]="!fBMI.valid"></i></button>
+        <span *ngIf="bmi">    Vaš BMI je <span id="bmi">{{bmi}} : {{bmiVrednost}}</span></span>
+      </form>
+      </div>
+    </div>
+  </div>
+  </div>
+<!--MAIN CONTENT ENDS-->
+
+<!--FOOTER-->
+<app-footer></app-footer>
+<!--FOOTER ENDS-->

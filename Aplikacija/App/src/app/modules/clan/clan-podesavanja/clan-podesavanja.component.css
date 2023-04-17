@@ -1,0 +1,30 @@
+.nav-link
+{
+    font-size: 20px;
+}
+.navbar-brand
+{
+    font-size: 25px;
+}
+
+.img {
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.container{
+    opacity: 1;
+    background-color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-radius: 10px;
+}
+
+.wrap{
+    background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+    height: 100%;
+    padding-top: 10%;
+}
+.btnChangePhoto{
+    text-align: center;
+}

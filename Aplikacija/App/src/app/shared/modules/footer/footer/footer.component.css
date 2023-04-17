@@ -1,0 +1,20 @@
+.wrap
+{
+    text-align: center;
+    background-color: #7b7d80;
+}
+
+.logo{
+    width: 120px;
+    height: 100px;
+}
+
+.icon{
+    width: 40px;
+    height: 40px;
+    padding: 5px 5px 5px 5px;
+}
+
+.social-media{
+    padding-top: 10px;
+}

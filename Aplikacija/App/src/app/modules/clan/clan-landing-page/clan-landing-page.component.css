@@ -1,0 +1,16 @@
+.thumbnail{
+    width: 40px;
+    height: 40px;
+}
+.container{
+    opacity: 0.9;
+    background-color: white;
+    padding-top: 30px;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.wrap{
+    background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+    height: 100%;
+}

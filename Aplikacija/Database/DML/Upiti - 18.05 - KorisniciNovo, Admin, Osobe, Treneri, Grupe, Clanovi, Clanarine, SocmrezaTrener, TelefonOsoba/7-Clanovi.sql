@@ -1,0 +1,38 @@
+#BEZ TRENERA-BEZ GRUPE
+INSERT INTO CLAN
+VALUES(5, NULL, NULL, 'Mršavljenje', '2021-05-18', NULL, NULL);
+
+INSERT INTO CLAN
+VALUES(6, NULL, NULL, 'Održavanje figure', '2021-05-18', NULL, NULL);
+
+INSERT INTO CLAN
+VALUES(7, NULL, NULL, 'Dobijanje mišićne mase', '2021-05-18', NULL, NULL);
+
+INSERT INTO CLAN
+VALUES(8, NULL, NULL, 'Dobijanje mišićne mase', '2021-05-18', NULL, NULL);
+
+#SA TRENEROM
+INSERT INTO CLAN
+VALUES(9, 2, NULL, 'Mršavljenje', '2021-05-18', NULL, NULL);
+
+INSERT INTO CLAN
+VALUES(10, 2, NULL, 'Mršavljenje', '2021-05-18', NULL, NULL);
+
+INSERT INTO CLAN
+VALUES(11, 3, NULL, 'Dobijanje mišićne mase', '2021-05-18', NULL, NULL);
+
+INSERT INTO CLAN
+VALUES(12, 4, NULL, 'Održavanje figure', '2021-05-18', NULL, NULL);
+
+#SA GRUPOM
+INSERT INTO clan
+VALUES(13, NULL, 3, 'Održavanje figure', '2021-05-18', NULL, NULL);
+
+INSERT INTO clan
+VALUES(14, NULL, 4, 'Dobijanje mišićne mase', '2021-05-18', NULL, NULL);
+
+INSERT INTO clan
+VALUES(15, NULL, 5, 'Dobijanje mišićne mase', '2021-05-18', NULL, NULL);
+
+INSERT INTO clan
+VALUES(16, NULL, 5, 'Dobijanje mišićne mase', '2021-05-18', NULL, NULL);

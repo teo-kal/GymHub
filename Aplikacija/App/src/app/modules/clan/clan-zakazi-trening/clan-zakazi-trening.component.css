@@ -1,0 +1,11 @@
+.wrap {
+    background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .container {
+    padding-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+  }

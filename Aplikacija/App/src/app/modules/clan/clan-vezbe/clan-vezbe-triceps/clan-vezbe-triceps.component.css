@@ -1,0 +1,33 @@
+.nav-link
+{
+    font-size: 20px;
+}
+.navbar-brand
+{
+    font-size: 25px;
+}
+.vezba{
+    border-radius: 10px;
+    border:1px solid black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: lightgray 10px 5px 5px;
+    background-color: white;
+}
+h1{
+    text-align: center;
+}
+p{
+    padding: 5px;
+}
+.wrap {
+    background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  .container {
+    padding-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+  }

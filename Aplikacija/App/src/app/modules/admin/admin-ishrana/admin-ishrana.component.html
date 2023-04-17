@@ -1,0 +1,26 @@
+<div class="wrap">
+    <div class="container">
+    <div class="row">
+        <div class="col-3">
+            <nav class="nav flex-column">
+                <h2>Dashboard</h2>
+                <hr>
+                <a class="nav-link" href="admin/clanovi">Članovi</a>
+                <a class="nav-link" href="admin/grupe">Grupe</a>
+                <a class="nav-link" href="admin/treneri">Treneri</a>
+                <a class="nav-link" href="admin/vezbe">Vežbe</a>
+                <a class="nav-link active" href="admin/ishrana">Planovi ishrane</a>
+                <a class="nav-link" href="admin/trening">Planovi treninga</a>
+                <app-logout></app-logout>
+            </nav>
+        </div>
+        <div class="col-7">
+            <div class="plan" *ngFor="let plan of planovi | async">
+                <p>Naziv plana:{{plan.Naziv}}</p>
+                <p>Tip plana: {{plan.Tip}}</p>
+                <button type="button" class="btn btn-danger m-1" (click)="obrisi(plan)"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

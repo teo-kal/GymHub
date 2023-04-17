@@ -1,0 +1,37 @@
+h4{
+    text-align: center;
+}
+nav{
+    text-align: center;
+}
+a,p{
+    font-size: 20px;
+}
+.active{
+    color: blue;
+}
+.vezba{
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid gray;
+    background-color: white;
+}
+
+.alert{
+    position: relative;
+    display: block;
+    width: 300px;
+    height: 50px;
+}
+
+.container{
+    background-color: white;
+    padding-top: 30px;
+    border-radius: 10px;
+}
+
+.wrap{
+    background-image: url("https://wallpaperaccess.com/full/1087589.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
